@@ -1,0 +1,11 @@
+name: Test Linode cli
+on: push
+jobs:
+  job-name:
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup Linode cli
+      uses: brendon1555/setup-linode-cli@master
+      with:
+        LINODE_CLI_TOKEN: ${{ secrets.LINODE_CLI_TOKEN }}
+    - run: linode-cli --help
