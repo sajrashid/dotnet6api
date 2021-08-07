@@ -2,6 +2,7 @@ name: Test Linode cli
 on: push
 jobs:
   job-name:
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
     - name: Setup Linode cli
