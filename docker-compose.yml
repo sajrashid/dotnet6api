@@ -10,14 +10,14 @@ services:
   #DataBase Service
   database:
     #Pull the latest mysql image
-    image: mysql:8.0.22
+    image: mysql:8.0.26
     #Map port 3306 on the mysql container to port 3306 in the host
     ports:
       - "3306:3306"
     #Specify where the persisted Data should be stored
     volumes:
-      - datafiles:/var/lib/mysql
-      - "~/sql-scripts/setup.sql:/docker-entrypoint-initdb.d/1.sql"
+       - "~/sql-scripts/setup.sql"
+       - ./data:/docker-entrypoint-initdb.d/
     restart: always
     #Specify Environment Variables for mysql
     environment: 
