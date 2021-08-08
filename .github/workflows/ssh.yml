@@ -4,12 +4,12 @@ jobs:
   job-name:
     runs-on: ubuntu-latest
     steps:
-      - uses: garygrossgarten/github-action-ssh@release
+      - uses: appleboy/ssh-action@v0.1.4
         with:
           command: ls -a
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          privateKey: ${{ secrets.PRIVATE_KEY }}
+          key: ${{ secrets.KEY }}
         env:
           CI: true
           
