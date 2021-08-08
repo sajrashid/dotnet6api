@@ -6,10 +6,8 @@ jobs:
     steps:
       - uses: garygrossgarten/github-action-ssh@release
         with:
+          command: ls -a
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.PRIVATE_KEY }}
-          script: |
-            cd myapp/DocsAPI
-            git pull https://sajrashid:r3dstar99@github.com/sajrashid/DocsAPI
-            docker-compose up --build
+          
