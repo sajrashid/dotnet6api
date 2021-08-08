@@ -51,16 +51,10 @@ namespace TestApi
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             var callingAppName = env.ApplicationName;
-            var logfileFolder = "\\logs\\" + callingAppName;
-            bool isFolderCreated = Directory.Exists(logfileFolder);
-            if (!isFolderCreated)
-            {
-                Directory.CreateDirectory(logfileFolder);
-            }
 
             Log.Logger = new LoggerConfiguration()
               .Enrich.FromLogContext()
-              .WriteTo.File(logfileFolder + "\\log.txt", rollingInterval: RollingInterval.Day)
+              .WriteTo.File(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs/.log"), rollingInterval: RollingInterval.Day)
               .CreateLogger();
 
             var startTime = DateTimeOffset.UtcNow;
