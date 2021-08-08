@@ -1,4 +1,4 @@
-name: ls -a via ssh
+name: ssh
 on: push
 jobs:
   job-name:
@@ -10,6 +10,8 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-        env:
-          CI: true
+          script: |
+            cd myapp/DocsAPI
+            git pull https://sajrashid:r3dstar99@github.com/sajrashid/DocsAPI
+            docker-compose up --build
           
