@@ -1,2 +1,11 @@
-- name: SSH Remote Commands
-  uses: appleboy/ssh-action@v0.1.4
+- name: multiple command
+  uses: appleboy/ssh-action@master
+  with:
+    host: ${{ secrets.HOST }}
+    username: ${{ secrets.USERNAME }}
+    key: ${{ secrets.KEY }}
+    port: ${{ secrets.PORT }}
+    script: |
+      cd myapp/DocsAPI
+      git pull https://sajrashid:r3dstar99@github.com/sajrashid/DocsAPI
+      docker-compose up --build
