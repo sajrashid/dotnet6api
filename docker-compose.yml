@@ -41,4 +41,4 @@ services:
     #Specify Environment Variables for the Api Service
     environment: 
       - DBHOST=database
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
