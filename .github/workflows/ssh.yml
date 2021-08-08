@@ -1,15 +1,14 @@
-name: multiple command
+name: ls -a via ssh
 on: push
 jobs:
   job-name:
     runs-on: ubuntu-latest
     steps:
-      - uses: appleboy/ssh-action@master
+      - uses: garygrossgarten/github-action-ssh@release
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          port: ${{ secrets.PORT }}
           script: |
             cd myapp/DocsAPI
             git pull https://sajrashid:r3dstar99@github.com/sajrashid/DocsAPI
