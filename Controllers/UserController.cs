@@ -32,6 +32,38 @@ namespace TestApi.Controllers
 
             connString = $"server={host}; userid={userid};pwd={password};port={port};database={usersDataBase}";
         }
+        [HttpGet("GetImg")]
+        public async Task<ActionResult> GetImg()
+        {
+
+            var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+
+            var newUser = new UsersDto() { 
+            
+            };
+            newUser.UserAgent = userAgent;
+            var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
+            try
+            {
+                string query = @"INSERT INTO Users (UserAgent,IP) VALUES (@UserAgent,@IP)";
+                using (var connection = new MySqlConnection(connString))
+                {
+                    // var result = await connection.ExecuteAsync(query, param, null, null, CommandType.Text);
+
+                    var result = await connection.ExecuteAsync(query, new UsersDto() { UserAgent = userAgent, IP = remoteIpAddress.ToString() });
+                }
+            }
+            catch (Exception e)
+            {
+                var ee = e;
+                return StatusCode(500, "Unable To Process Request");
+            }
+
+
+            return  new StatusCodeResult(200);
+        }
+
+
         [HttpGet("GetAllUsers")]
         public async Task<ActionResult<List<UsersDto>>> GetAllUsers()
         {
@@ -63,13 +95,15 @@ namespace TestApi.Controllers
         public async Task<ActionResult<UsersDto>> AddNewUser(UsersDto user)
         {
             var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+           
             var newUser = new UsersDto();
+            newUser.UserAgent = userAgent;
             try
             {
-                string query = @"INSERT INTO Users (UserName,Hobbies,Location) VALUES (@UserName,@Hobbies,@Location)";
+                string query = @"INSERT INTO Users (UserAgent,IP) VALUES (@UserAgent,@IP)";
                 var param = new DynamicParameters();
                 param.Add("@UserAgent", user.UserAgent);
-                param.Add("@Location", user.IP);
+                param.Add("@IP", user.IP);
                 using (var connection = new MySqlConnection(connString))
                 {
                     var result = await connection.ExecuteAsync(query, param, null, null, CommandType.Text);
