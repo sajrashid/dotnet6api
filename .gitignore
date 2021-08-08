@@ -389,3 +389,6 @@ FodyWeavers.xsd
 *.sln.iml
 .vs/slnx.sqlite
 .vs/slnx.sqlite
+linode
+linode.pub
+.vs/slnx.sqlite
