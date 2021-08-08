@@ -2,8 +2,8 @@ namespace TestApi.DTOs
 {
     public class UsersDto
     {
-        public string UserName { get; set; }
-        public string Hobbies { get; set; }
-        public string Location { get; set; }
+        public int Id { get; set; }
+        public string UserAgent { get; set; }
+        public string IP { get; set; }
     }
 }

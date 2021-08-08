@@ -62,14 +62,14 @@ namespace TestApi.Controllers
         [HttpPost("AddNewUser")]
         public async Task<ActionResult<UsersDto>> AddNewUser(UsersDto user)
         {
+            var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
             var newUser = new UsersDto();
             try
             {
                 string query = @"INSERT INTO Users (UserName,Hobbies,Location) VALUES (@UserName,@Hobbies,@Location)";
                 var param = new DynamicParameters();
-                param.Add("@UserName", user.UserName);
-                param.Add("@Hobbies", user.Hobbies);
-                param.Add("@Location", user.Location);
+                param.Add("@UserAgent", user.UserAgent);
+                param.Add("@Location", user.IP);
                 using (var connection = new MySqlConnection(connString))
                 {
                     var result = await connection.ExecuteAsync(query, param, null, null, CommandType.Text);

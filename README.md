@@ -30,7 +30,9 @@ mysql -u root -p At the Enter password: prompt, well, enter root's password
 
  or 
 
-  mysql --user="root" --database="Usersdb" --password="Root0++" -e "USE Usersdb; CREATE TABLE IF NOT EXISTS  Usersdb.Users (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,UserName VARCHAR(30) NOT NULL,Hobbies VARCHAR(30) NOT NULL,Location VARCHAR(50));"
+ mysql --user="root" --database="Usersdb" --password="Root0++" -e "DROP TABLE Usersdb.Users;"
+ 
+mysql --user="root" --database="Usersdb" --password="Root0++" -e "CREATE TABLE IF NOT EXISTS  Usersdb.Users (Id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, UserAgent VARCHAR(256) NOT NULL,IP VARCHAR(30) NOT NULL,CanvasId VARCHAR(8));"
 
   
 Api End Point
