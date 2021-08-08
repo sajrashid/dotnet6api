@@ -6,7 +6,6 @@ jobs:
     steps:
       - uses: appleboy/ssh-action@v0.1.4
         with:
-          command: ls -a
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
