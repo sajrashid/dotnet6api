@@ -1,11 +1,16 @@
-- name: multiple command
-  uses: appleboy/ssh-action@master
-  with:
-    host: ${{ secrets.HOST }}
-    username: ${{ secrets.USERNAME }}
-    key: ${{ secrets.KEY }}
-    port: ${{ secrets.PORT }}
-    script: |
-      cd myapp/DocsAPI
-      git pull https://sajrashid:r3dstar99@github.com/sajrashid/DocsAPI
-      docker-compose up --build
+name: multiple command
+on: push
+jobs:
+  job-name:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd myapp/DocsAPI
+            git pull https://sajrashid:r3dstar99@github.com/sajrashid/DocsAPI
+            docker-compose up --build
