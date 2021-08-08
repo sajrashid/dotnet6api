@@ -56,6 +56,8 @@ namespace TestApi.Controllers
             catch (Exception e)
             {
                 var ee = e;
+                Console.WriteLine(ee.Message);
+
                 return StatusCode(500, "Unable To Process Request");
             }
 

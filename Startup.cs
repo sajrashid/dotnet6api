@@ -58,6 +58,8 @@ namespace TestApi
                 Directory.CreateDirectory(logfileFolder);
             }
 
+            Console.WriteLine(logfileFolder);
+
             Log.Logger = new LoggerConfiguration()
               .Enrich.FromLogContext()
               .WriteTo.File(logfileFolder + "\\log.txt", rollingInterval: RollingInterval.Day)
