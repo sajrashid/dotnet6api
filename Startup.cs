@@ -51,7 +51,7 @@ namespace TestApi
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             var callingAppName = env.ApplicationName;
-            var logfileFolder = "logs\\" + callingAppName;
+            var logfileFolder = "\\logs\\" + callingAppName;
             bool isFolderCreated = Directory.Exists(logfileFolder);
             if (!isFolderCreated)
             {
