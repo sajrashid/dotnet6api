@@ -9,6 +9,7 @@ using Dapper;
 using MySql.Data.MySqlClient;
 using System.Data;
 using Microsoft.Extensions.Logging;
+using System.Formats.Asn1;
 
 namespace TestApi.Controllers
 {
@@ -32,39 +33,58 @@ namespace TestApi.Controllers
 
             connString = $"server={host}; userid={userid};pwd={password};port={port};database={usersDataBase}";
         }
+
+        private async Task<List<UsersDto>> DoesUserExist(string iP)
+        {
+            var users = new List<UsersDto>();
+            string query = @"SELECT * FROM Users where IP='" + iP + "'";
+
+            using (var connection = new MySqlConnection(this.connString))
+            {
+                var result = await connection.QueryAsync<UsersDto>(query, CommandType.Text);
+                users = result.ToList();
+            }
+
+            return users;
+        }
+
         [HttpGet("GetImg")]
         public async Task<ActionResult> GetImg()
         {
-
-            var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
-
-            var newUser = new UsersDto() { 
-            
-            };
+            var newUser = new UsersDto();
+            var userAgent = this.HttpContext.Request.Headers["User-Agent"].ToString();
             newUser.UserAgent = userAgent;
-            var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
-            try
-            {
-                string query = @"INSERT INTO Users (UserAgent,IP) VALUES (@UserAgent,@IP)";
-                using (var connection = new MySqlConnection(connString))
-                {
-                    // var result = await connection.ExecuteAsync(query, param, null, null, CommandType.Text);
+            var remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress;
 
-                    var result = await connection.ExecuteAsync(query, new UsersDto() { UserAgent = userAgent, IP = remoteIpAddress.ToString() });
+
+            var usersList = await this.DoesUserExist(remoteIpAddress.ToString());
+            using var connection = new MySqlConnection(this.connString);
+
+            if (usersList.Count < 1)
+            {
+                // new user IP not found
+                try
+                {
+                    string query = @"INSERT INTO Users (UserAgent,IP,LastVisit,Count) VALUES (@UserAgent,@IP,@LastVisit,@Count)";
+                    var result = await connection.ExecuteAsync(query, new UsersDto() { UserAgent = userAgent, IP = remoteIpAddress.ToString(), LastVisit = DateTime.Now, Count = 1 });
+                }
+                catch (Exception e)
+                {
+                    var ee = e;
+                    Console.WriteLine(ee.Message);
+                    return this.StatusCode(500, "Unable To Process Request");
                 }
             }
-            catch (Exception e)
+            else
             {
-                var ee = e;
-                Console.WriteLine(ee.Message);
-
-                return StatusCode(500, "Unable To Process Request");
+                var count = usersList[0].Count;
+                count++;
+                string query = @"Update Users Set Count=" + count + " WHERE Id=" + usersList[0].Id + ";";
+                var result = await connection.ExecuteAsync(query);
             }
 
-
-            return  new StatusCodeResult(200);
+            return new StatusCodeResult(200);
         }
-
 
         [HttpGet("GetAllUsers")]
         public async Task<ActionResult<List<UsersDto>>> GetAllUsers()
@@ -73,7 +93,7 @@ namespace TestApi.Controllers
             try
             {
                 string query = @"SELECT * FROM Users";
-                using (var connection = new MySqlConnection(connString))
+                using (var connection = new MySqlConnection(this.connString))
                 {
                     var result = await connection.QueryAsync<UsersDto>(query, CommandType.Text);
                     users = result.ToList();
@@ -93,41 +113,41 @@ namespace TestApi.Controllers
             }
         }
 
-        [HttpPost("AddNewUser")]
-        public async Task<ActionResult<UsersDto>> AddNewUser(UsersDto user)
-        {
-            var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
-           
-            var newUser = new UsersDto();
-            newUser.UserAgent = userAgent;
-            try
-            {
-                string query = @"INSERT INTO Users (UserAgent,IP) VALUES (@UserAgent,@IP)";
-                var param = new DynamicParameters();
-                param.Add("@UserAgent", user.UserAgent);
-                param.Add("@IP", user.IP);
-                using (var connection = new MySqlConnection(connString))
-                {
-                    var result = await connection.ExecuteAsync(query, param, null, null, CommandType.Text);
-                    if (result > 0)
-                    {
-                        newUser = user;
-                    }
-                }
-                if (newUser != null)
-                {
-                    return Ok(newUser);
-                }
-                else
-                {
-                    return BadRequest("Unable To  User");
-                }
-            }
-            catch (Exception e)
-            {
-                var ee=e;
-                return StatusCode(500, "Unable To Process Request");
-            }
-        }
+      //  [HttpPost("AddNewUser")]
+        //public async Task<ActionResult<UsersDto>> AddNewUser(UsersDto user)
+        //{
+        //    var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+        //    var newUser = new UsersDto();
+        //    newUser.UserAgent = userAgent;
+
+        //    try
+        //    {
+        //        string query = @"INSERT INTO Users (UserAgent,c) VALUES (@UserAgent,@IP)";
+        //        var param = new DynamicParameters();
+        //        param.Add("@UserAgent", user.UserAgent);
+        //        param.Add("@IP", user.IP);
+        //        using (var connection = new MySqlConnection(connString))
+        //        {
+        //            var result = await connection.ExecuteAsync(query, param, null, null, CommandType.Text);
+        //            if (result > 0)
+        //            {
+        //                newUser = user;
+        //            }
+        //        }
+        //        if (newUser != null)
+        //        {
+        //            return Ok(newUser);
+        //        }
+        //        else
+        //        {
+        //            return BadRequest("Unable To  User");
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        var ee=e;
+        //        return StatusCode(500, "Unable To Process Request");
+        //    }
+        //}
     }
 }

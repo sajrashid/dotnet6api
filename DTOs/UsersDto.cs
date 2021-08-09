@@ -1,3 +1,5 @@
+using System;
+
 namespace TestApi.DTOs
 {
     public class UsersDto
@@ -5,5 +7,8 @@ namespace TestApi.DTOs
         public int Id { get; set; }
         public string UserAgent { get; set; }
         public string IP { get; set; }
+        public DateTime LastVisit { get; set; }
+        public int Count { get; set; }
+
     }
 }
