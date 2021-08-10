@@ -1,9 +1,8 @@
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 WORKDIR /app
-EXPOSE 80/tcp
+
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
-EXPOSE 80
 WORKDIR /src
 COPY ["TestApi.csproj", "./"]
 RUN dotnet restore "TestApi.csproj"
@@ -14,7 +13,17 @@ RUN dotnet build "TestApi.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "TestApi.csproj" -c Release -o /app/publish
 
+
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "TestApi.dll"]
+
+EXPOSE 80/tcp
+RUN chmod +x ./entrypoint.sh
+CMD /bin/bash ./entrypoint.sh
+
+
+
+
+
