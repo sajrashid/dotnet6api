@@ -3,6 +3,7 @@ WORKDIR /app
 EXPOSE 80/tcp
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+EXPOSE 80
 WORKDIR /src
 COPY ["TestApi.csproj", "./"]
 RUN dotnet restore "TestApi.csproj"
