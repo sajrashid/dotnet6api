@@ -41,3 +41,4 @@ services:
     environment:
       - DBHOST=database
       - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=https://+:443;http://+:80
