@@ -17,4 +17,7 @@
   <ItemGroup>
     <Folder Include="logs\" />
   </ItemGroup>
+	<PropertyGroup>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	</PropertyGroup>
 </Project>
