@@ -109,3 +109,11 @@ To renew (minimum wait time is 30 days), just the same command again.
 create pfx file from cert
 
 # openssl pkcs12 -export -out certificate.pfx -inkey privkey.pem -in cert.pem -certfile chain.pem
+
+create crt file from cert.pem and copy to /usr/local/share/ca-certificates, cp cert.pem to cert.crt
+
+then add to server certificate store
+
+sudo update-ca-certificates
+
+you should entry 1 added
