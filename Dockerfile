@@ -4,7 +4,7 @@ EXPOSE 5000
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["API.csproj", "./"]
+COPY ["Api.csproj", "./"]
 RUN dotnet restore "API.csproj"
 COPY . .
 WORKDIR "/src/."
