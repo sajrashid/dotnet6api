@@ -7,6 +7,6 @@ namespace Api.Repository
 {
     public interface IUsersRepository
     {
-        GtlTitle GetTitle(string ISBN);
+        string GetTitle(string ISBN);
     }
 }
