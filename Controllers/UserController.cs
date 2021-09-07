@@ -1,54 +1,50 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using API.DTOs;
-using Dapper;
-using MySql.Data.MySqlClient;
-using System.Data;
-using Microsoft.Extensions.Logging;
-using System.Formats.Asn1;
-
 namespace API.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Formats.Asn1;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using API.DTOs;
+    using Dapper;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Logging;
+    using MySql.Data.MySqlClient;
+
     [ApiController]
     [Route("[controller]")]
+#pragma warning disable SA1600 // Elements should be documented
     public class UserController : ControllerBase
+#pragma warning restore SA1600 // Elements should be documented
     {
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration configuration;
         private readonly string connString;
         private readonly ILogger<UserController> _logger;
 
         public UserController(IConfiguration configuration, ILogger<UserController> logger)
         {
-            _configuration = configuration;
-            _logger = logger;
-            var host = _configuration["DBHOST"] ?? "localhost";
-            var port = _configuration["DBPORT"] ?? "3306";
-            var password = _configuration["MYSQL_PASSWORD"] ?? _configuration.GetConnectionString("MYSQL_PASSWORD");
-            var userid = _configuration["MYSQL_USER"] ?? _configuration.GetConnectionString("MYSQL_USER");
-            var usersDataBase = _configuration["MYSQL_DATABASE"] ?? _configuration.GetConnectionString("MYSQL_DATABASE");
+            this.configuration = configuration;
+            this._logger = logger;
+            var host = this.configuration["DBHOST"] ?? "localhost";
+            var port = this.configuration["DBPORT"] ?? "3306";
+            var password = this.configuration["MYSQL_PASSWORD"] ?? this.configuration.GetConnectionString("MYSQL_PASSWORD");
+            var userid = this.configuration["MYSQL_USER"] ?? this.configuration.GetConnectionString("MYSQL_USER");
+            var usersDataBase = this.configuration["MYSQL_DATABASE"] ?? this.configuration.GetConnectionString("MYSQL_DATABASE");
 
             connString = $"server={host}; userid={userid};pwd={password};port={port};database={usersDataBase}";
-        }
-
-        public UserController()
-        {
         }
 
         private async Task<List<UsersDto>> DoesUserExist(string iP)
         {
             var users = new List<UsersDto>();
             string query = @"SELECT * FROM Users where IP='" + iP + "'";
-
             using (var connection = new MySqlConnection(this.connString))
             {
                 var result = await connection.QueryAsync<UsersDto>(query, CommandType.Text);
                 users = result.ToList();
             }
-
             return users;
         }
 
@@ -59,8 +55,6 @@ namespace API.Controllers
             var userAgent = this.HttpContext.Request.Headers["User-Agent"].ToString();
             newUser.UserAgent = userAgent;
             var remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress;
-
-
             var usersList = await this.DoesUserExist(remoteIpAddress.ToString());
             using var connection = new MySqlConnection(this.connString);
 
