@@ -1,3 +1,37 @@
+
+# Create folder that will host the data and other files
+mkdir ~/Downloads/sql_test/
+cd ~/Downloads/sql_test
+touch .gitignore
+echo "data/" >> ./.gitignore
+
+# Create sql folder to host database/table creation scripts
+mkdir -p ./sql/
+
+# Append this SQL code to the file sql/init_db.sql to create database/table
+echo "
+
+
+CREATE DATABASE Usersdb;
+CREATE USER 'test_user'@'%' IDENTIFIED WITH mysql_native_password BY '123';
+GRANT ALL ON Usersdb.* TO 'test_user'@'%';
+
+/* Make sure the privileges are installed */
+FLUSH PRIVILEGES;
+
+USE Usersdb;
+
+CREATE TABLE Usersdb.Users (Id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, UserAgent VARCHAR(256) NOT NULL,IP VARCHAR(30) NOT NULL,CanvasId VARCHAR(8),LastVisit DATETIME, Count INT);" >> ./sql/init_db.sql
+
+# Create a MySQL config file to allow to append data
+mkdir sql_conf
+echo "
+[mysqld]
+# This just makes sure we can append data from outside the container
+local-infile=1
+" >> sql_conf/mysql.cnf
+
+
 # Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
 
 version: '3.4'
@@ -23,7 +57,7 @@ services:
       MYSQL_ROOT_PASSWORD: Root0++
       MYSQL_USER: newuser
       MYSQL_PASSWORD: M0use!in99
-      MYSQL_DATABASE: Usersdb
+      # MYSQL_DATABASE: Usersdb
   #Api  Service
   api:
     build:
@@ -42,4 +76,4 @@ services:
     environment:
       - DBHOST=database
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://+:80
+    #  - ASPNETCORE_URLS=http://+:80
