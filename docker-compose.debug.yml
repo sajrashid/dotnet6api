@@ -8,9 +8,9 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    ports:
-      - 80
-      - 443
+    # ports:
+    #   - 80
+    #   - 443
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=https://+:443;http://+:80
