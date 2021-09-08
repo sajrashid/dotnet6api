@@ -14,6 +14,7 @@ services:
       dockerfile: Nginx.Dockerfile
     ports:
       - "80:80"
+      - "443:443"
     restart: always
 
   #DataBase Service
@@ -44,9 +45,9 @@ services:
       - database
       - reverseproxy
     #Map port 8888 in the docker container to port 80 in the Api
-    ports:
-         - "80:80"
-         - "443:443"
+    # ports:
+    #      - "80:80"
+    #      - "443:443"
     restart: always
     #Specify Environment Variables for the Api Service
     environment:
