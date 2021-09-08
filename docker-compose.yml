@@ -12,9 +12,9 @@ services:
   build:
     context: ./Nginx
     dockerfile: Nginx.Dockerfile
-    ports:
+  ports:
       - "80:80"
-    restart: always
+  restart: always
 
   #DataBase Service
   database:
