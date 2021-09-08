@@ -3,7 +3,6 @@ namespace API.Controllers
     using System;
     using System.Collections.Generic;
     using System.Data;
-    using System.Formats.Asn1;
     using System.Linq;
     using System.Threading.Tasks;
     using API.DTOs;
@@ -113,7 +112,7 @@ namespace API.Controllers
 
 
         // create a http put request to update a user
-        [HttpPut("UpdateUser")] // update a user    
+        [HttpPut("UpdateUser")] // update a user
         public async Task<ActionResult<UsersDto>> UpdateUser(UsersDto user)
         {   // update a user
             try
@@ -128,17 +127,17 @@ namespace API.Controllers
             catch (Exception)
             {
                 return StatusCode(500, "Unable To Process Request");
-            }   
-        }   
+            }
+        }
 
 
 
 
 
-            
 
 
-      //  [HttpPost("AddNewUser")]
+
+        //  [HttpPost("AddNewUser")]
         //public async Task<ActionResult<UsersDto>> AddNewUser(UsersDto user)
         //{
         //    var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
