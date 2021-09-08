@@ -25,7 +25,7 @@ services:
       - "3306:3306"
     #Specify where the persisted Data should be stored
     volumes:
-      #  - ./data:/docker-entrypoint-initdb.d/
+      - ./data:/docker-entrypoint-initdb.d/
     restart: always
     #Specify Environment Variables for mysql
     environment:
