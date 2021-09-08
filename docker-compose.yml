@@ -20,7 +20,7 @@ services:
   #DataBase Service
   database:
     #Pull the latest mysql image
-    image: mysql:8.0,latest
+    image: mysql:8.0.26
     cap_add:
       - SYS_NICE  # CAP_SYS_NICE
     #Map port 3306 on the mysql container to port 3306 in the host
