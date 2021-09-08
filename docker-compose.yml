@@ -10,7 +10,7 @@ services:
   # reverse proxy
   reverseproxy:
     build:
-      context: ./Nginx
+      context: ./nginx
       dockerfile: Nginx.Dockerfile
     ports:
       - "80:80"
