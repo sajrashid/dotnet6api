@@ -7,14 +7,14 @@ volumes:
   datafiles:
 
 services:
-
- reverseproxy:
-  build:
-    context: ./Nginx
-    dockerfile: Nginx.Dockerfile
-  ports:
+  # reverse proxy
+  reverseproxy:
+    build:
+      context: ./Nginx
+      dockerfile: Nginx.Dockerfile
+    ports:
       - "80:80"
-  restart: always
+    restart: always
 
   #DataBase Service
   database:
