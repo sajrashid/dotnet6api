@@ -66,14 +66,15 @@ namespace API
                 var startTime = DateTimeOffset.UtcNow;
 
                 Log.Logger.Information("Started at {StartTime} and 0x{Hello:X} is hex of 42", startTime, 42);
-                app.UseForwardedHeaders();
 
 
                 if (env.IsDevelopment())
                 {
                     app.UseDeveloperExceptionPage();
+                    app.UseForwardedHeaders();
                 }
 
+                app.UseForwardedHeaders();
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
