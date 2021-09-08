@@ -16,9 +16,6 @@ services:
       - "3306:3306"
     #Specify where the persisted Data should be stored
     volumes:
-       - /sql_test/sql:/docker-entrypoint-initdb.d
-       - /sql_test/data:/var/lib/mysql
-       - /sql_test/sql_conf:/etc/mysql/conf.d
       #  - ./data:/docker-entrypoint-initdb.d/
     restart: always
     #Specify Environment Variables for mysql
