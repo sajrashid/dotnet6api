@@ -57,7 +57,6 @@ namespace API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseForwardedHeaders();
 
             Log.Logger = new LoggerConfiguration()
                 .Enrich.WithProperty("App Name", "Serilog Web App Sample")
@@ -67,6 +66,7 @@ namespace API
                 var startTime = DateTimeOffset.UtcNow;
 
                 Log.Logger.Information("Started at {StartTime} and 0x{Hello:X} is hex of 42", startTime, 42);
+                app.UseForwardedHeaders();
 
 
                 if (env.IsDevelopment())
