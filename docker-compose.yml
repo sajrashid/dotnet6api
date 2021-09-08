@@ -9,9 +9,9 @@ volumes:
 services:
 
  reverseproxy:
-    build:
-      context: ./Nginx
-      dockerfile: Nginx.Dockerfile
+  build:
+    context: ./Nginx
+    dockerfile: Nginx.Dockerfile
     ports:
       - "80:80"
     restart: always
@@ -19,7 +19,7 @@ services:
   #DataBase Service
   database:
     #Pull the latest mysql image
-    image: mysql:8.0.26
+    image: mysql:8.0.26a
     #Map port 3306 on the mysql container to port 3306 in the host
     ports:
       - "3306:3306"
