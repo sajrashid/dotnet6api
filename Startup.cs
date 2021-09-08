@@ -57,6 +57,7 @@ namespace API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseForwardedHeaders();
 
             Log.Logger = new LoggerConfiguration()
                 .Enrich.WithProperty("App Name", "Serilog Web App Sample")
@@ -71,10 +72,8 @@ namespace API
                 if (env.IsDevelopment())
                 {
                     app.UseDeveloperExceptionPage();
-                    app.UseForwardedHeaders();
                 }
 
-                app.UseForwardedHeaders();
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
