@@ -14,6 +14,7 @@ namespace API
     using Microsoft.IdentityModel.Tokens;
     using System.Text;
     using Microsoft.Extensions.Logging;
+using System.Configuration;
 
     public class Startup
     {
@@ -38,7 +39,6 @@ namespace API
                .AddLogging(builder =>
                {
                    builder.AddSerilog();
-                   builder.AddSeq(Configuration.GetSection("Seq"));
                });
             services.AddControllers();
             services.AddSwaggerGen(swagger =>
@@ -109,6 +109,7 @@ namespace API
 
             Log.Logger = new LoggerConfiguration()
                 .Enrich.WithProperty("App Name", "Serilog Web App Sample")
+                .ReadFrom.Configuration(this.Configuration.GetSection("Serilog"))
                 .CreateLogger();
             try
             {
