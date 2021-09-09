@@ -50,6 +50,7 @@ namespace API.Controllers
         [HttpGet("GetImg")]
         public async Task<ActionResult> GetImg()
         {
+            this._logger.LogInformation(System.Reflection.MethodBase.GetCurrentMethod().Name);
             var newUser = new UsersDto();
             var userAgent = this.HttpContext.Request.Headers["User-Agent"].ToString();
             newUser.UserAgent = userAgent;

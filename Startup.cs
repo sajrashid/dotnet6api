@@ -13,6 +13,7 @@ namespace API
     using Serilog;
     using Microsoft.IdentityModel.Tokens;
     using System.Text;
+    using Microsoft.Extensions.Logging;
 
     public class Startup
     {
@@ -37,6 +38,7 @@ namespace API
                .AddLogging(builder =>
                {
                    builder.AddSerilog();
+                   builder.AddSeq(Configuration.GetSection("Seq"));
                });
             services.AddControllers();
             services.AddSwaggerGen(swagger =>
@@ -46,7 +48,7 @@ namespace API
                {
                    Version = "v1",
                    Title = "JWT Token Authentication API",
-                   Description = "ASP.NET Core 3.1 Web API"
+                   Description = "API"
                });
                // To Enable authorization using Swagger (JWT)
                swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
