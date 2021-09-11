@@ -116,3 +116,7 @@ sudo update-ca-certificates
 
 you should entry 1 added
 
+
+backup
+https://www.tecmint.com/manage-etc-with-version-control-using-etckeeper/
+sudo apt-get install etckeeper
