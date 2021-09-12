@@ -1,7 +1,9 @@
 namespace API
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Text;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -9,15 +11,15 @@ namespace API
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.IdentityModel.Tokens;
     using Microsoft.OpenApi.Models;
     using Serilog;
-    using Microsoft.IdentityModel.Tokens;
-    using System.Text;
-    using Microsoft.Extensions.Logging;
-using System.Configuration;
-
+    using Serilog.Sinks.Grafana.Loki;
+    using Serilog.Debugging;
     public class Startup
     {
+        private const string OutputTemplate =
+            "{Timestamp:dd-MM-yyyy HH:mm:ss} [{Level:u3}] [{ThreadId}] {Message}{NewLine}{Exception}";
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
@@ -106,10 +108,19 @@ using System.Configuration;
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             Log.Logger = new LoggerConfiguration()
                 .Enrich.WithProperty("App Name", "Serilog Web App Sample")
                 .ReadFrom.Configuration(this.Configuration.GetSection("Serilog"))
+                .Enrich.FromLogContext()
+                        .Enrich.WithProperty("MyLabelPropertyName", "MyPropertyValue")
+                        .Enrich.WithThreadId()
+                        .WriteTo.Console()
+                        .WriteTo.GrafanaLoki(
+                    "http://192.168.154.236:3100",
+                    new List<LokiLabel> { new () { Key = "app", Value = "console" } },
+                    credentials: null,
+                    outputTemplate: OutputTemplate,
+                    createLevelLabel: true)
                 .CreateLogger();
             try
             {
