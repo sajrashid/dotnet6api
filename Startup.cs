@@ -122,11 +122,12 @@ namespace API
                     outputTemplate: OutputTemplate,
                     createLevelLabel: true)
                 .CreateLogger();
+            Log.Debug("This is a debug message");
             try
             {
                 var startTime = DateTimeOffset.UtcNow;
 
-                Log.Logger.Information("Started at {StartTime} and 0x{Hello:X} is hex of 42", startTime, 42);
+                Log.Information("Started at {StartTime} and 0x{Hello:X} is hex of 42", startTime, 42);
 
 
                 if (env.IsDevelopment())
