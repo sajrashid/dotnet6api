@@ -116,7 +116,7 @@ namespace API
                         .Enrich.WithThreadId()
                         .WriteTo.Console()
                         .WriteTo.GrafanaLoki(
-                    "http://178.79.184.83:3100/loki/api/v1/push",
+                    "http://178.79.184.83:3100",
                     new List<LokiLabel> { new() { Key = "app", Value = "console" } },
                     credentials: null,
                     outputTemplate: OutputTemplate,
