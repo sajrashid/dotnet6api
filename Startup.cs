@@ -108,26 +108,23 @@ namespace API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            Log.Logger = new LoggerConfiguration()
-                .Enrich.WithProperty("App Name", "Serilog Web App Sample")
+            ILogger logger = new LoggerConfiguration()
+                  .Enrich.WithProperty("App Name", "Serilog Web App Sample")
                 .ReadFrom.Configuration(this.Configuration.GetSection("Serilog"))
                 .Enrich.FromLogContext()
-                        .Enrich.WithProperty("MyLabelPropertyName", "MyPropertyValue")
+                       // .Enrich.WithProperty("MyLabelPropertyName", "MyPropertyValue")
                         .Enrich.WithThreadId()
                         .WriteTo.Console()
                         .WriteTo.GrafanaLoki(
-                    "http://178.79.184.83:3100",
-                    new List<LokiLabel> { new() { Key = "app", Value = "console" } },
-                    credentials: null,
-                    outputTemplate: OutputTemplate,
-                    createLevelLabel: true)
+                    "http://178.79.184.83:3100")
                 .CreateLogger();
-            Log.Debug("This is a debug message");
+            logger.Information("The god of the day is ");
+            logger.Debug("This is a debug message");
             try
             {
                 var startTime = DateTimeOffset.UtcNow;
 
-                Log.Information("Started at {StartTime} and 0x{Hello:X} is hex of 42", startTime, 42);
+                logger.Information("Started at {StartTime} and 0x{Hello:X} is hex of 42", startTime, 42);
 
 
                 if (env.IsDevelopment())
