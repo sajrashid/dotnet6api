@@ -23,3 +23,12 @@ scrape_configs:
           __path__: /var/lib/docker/containers/561b53013031*/561b53013031*.log
           # __path__ denotes the path of the actual log file whose logs will be scraped
           # and shipped to loki indexed with the above labels
+  - job_name: nginx
+    entry_parser: raw
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: nginx
+          host: sbcode
+          __path__: /var/log/nginx/*log
