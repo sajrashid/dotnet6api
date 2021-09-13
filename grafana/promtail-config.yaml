@@ -20,7 +20,7 @@ scrape_configs:
         labels: # labels with which all the following logs should be labelled
           job: my-container # label-1
           host: localhost # label-2
-          __path__: /var/lib/docker/containers/561b53013031*/561b53013031*.log
+          __path__: /var/lib/docker/containers/609a55b54831*/609a55b54831*.log
           # __path__ denotes the path of the actual log file whose logs will be scraped
           # and shipped to loki indexed with the above labels
   - job_name: nginx
@@ -30,5 +30,5 @@ scrape_configs:
           - localhost
         labels:
           job: nginx
-          host: sbcode
+          host: localhost
           __path__: /var/log/nginx/*log
