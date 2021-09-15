@@ -30,7 +30,7 @@ scrape_configs:
         labels: # labels with which all the following logs should be labelled
           job: mysql # label-1
           host: localhost # label-2
-          __path__: /var/lib/docker/containers/d91811fdebba*/d91811fdebba*.log
+          __path__: /var/lib/docker/containers/d91811fdebba*/45a995800a4b*.log
           # __path__ denotes the path of the actual log file whose logs will be scraped
           # and shipped to loki indexed with the above labels
   - job_name: picontainer
