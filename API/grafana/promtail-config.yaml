@@ -13,13 +13,13 @@ clients:
 
 # which logs to read/scrape
 scrape_configs:
-  - job_name: my-container-logs
+  - job_name: containers
     static_configs:
       - targets: # tells promtail to look for the logs on the current machine/host
           - localhost
         labels: # labels with which all the following logs should be labelled
           job: my-container # label-1
           host: localhost # label-2
-          __path__: /var/lib/docker/containers/609a55b54831*/609a55b54831*.log
+          __path__: /var/lib/docker/containers/containers/*/*log
           # __path__ denotes the path of the actual log file whose logs will be scraped
           # and shipped to loki indexed with the above labels
