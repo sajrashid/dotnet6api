@@ -20,6 +20,10 @@ namespace TimedService
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<Worker>();
-                });
+                })
+               .ConfigureServices(services =>
+               {
+                   services.AddHostedService<BackGroundTimedService>();
+               });
     }
 }
