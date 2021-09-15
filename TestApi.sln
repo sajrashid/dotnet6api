@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31320.298
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api.csproj", "{CF15B479-03BF-44AF-862C-4A808C441902}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimedService", "TimedService\TimedService.csproj", "{A2A4BAEB-8DE7-4650-AF01-CB28473BD8BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{CF15B479-03BF-44AF-862C-4A808C441902}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF15B479-03BF-44AF-862C-4A808C441902}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF15B479-03BF-44AF-862C-4A808C441902}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2A4BAEB-8DE7-4650-AF01-CB28473BD8BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2A4BAEB-8DE7-4650-AF01-CB28473BD8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2A4BAEB-8DE7-4650-AF01-CB28473BD8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2A4BAEB-8DE7-4650-AF01-CB28473BD8BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
