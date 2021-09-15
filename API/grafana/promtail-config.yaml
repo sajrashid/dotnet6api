@@ -13,33 +13,13 @@ clients:
 
 # which logs to read/scrape
 scrape_configs:
-  - job_name: proxycontainer
+  - job_name: container
     static_configs:
       - targets: # tells promtail to look for the logs on the current machine/host
           - localhost
         labels: # labels with which all the following logs should be labelled
-          job: nginx # label-1
+          job: my-container # label-1
           host: localhost # label-2
-          __path__: /var/lib/docker/containers/cd9ceb730f98*/cd9ceb730f98*.log
-          # __path__ denotes the path of the actual log file whose logs will be scraped
-          # and shipped to loki indexed with the above labels
-  - job_name: mysqlcontainer
-    static_configs:
-      - targets: # tells promtail to look for the logs on the current machine/host
-          - localhost
-        labels: # labels with which all the following logs should be labelled
-          job: mysql # label-1
-          host: localhost # label-2
-          __path__: /var/lib/docker/containers/d91811fdebba*/45a995800a4b*.log
-          # __path__ denotes the path of the actual log file whose logs will be scraped
-          # and shipped to loki indexed with the above labels
-  - job_name: picontainer
-    static_configs:
-      - targets: # tells promtail to look for the logs on the current machine/host
-          - localhost
-        labels: # labels with which all the following logs should be labelled
-          job: api # label-1
-          host: localhost # label-2
-          __path__: /var/lib/docker/containers/d91811fdebba*/34f965263fef*.log
+          __path__: /var/lib/docker/containers/*/*.log
           # __path__ denotes the path of the actual log file whose logs will be scraped
           # and shipped to loki indexed with the above labels
