@@ -17,6 +17,7 @@ using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
 
     using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Common;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -81,7 +82,7 @@ using Microsoft.Extensions.Configuration;
                     Rows.Add(string.Format("('{0}','{1}','{2}','{3}','{4}','{5}')"
                         , MySqlHelper.EscapeString(Faker.CompanyFaker.Name())
                         , MySqlHelper.EscapeString(Faker.PhoneFaker.Phone())
-                        , Faker.NumberFaker.Number(1, 1000)
+                        , Convert.ToDecimal(Faker.NumberFaker.Number(1, 1000))
                         , Faker.BooleanFaker.Boolean()
                         , Faker.NumberFaker.Number(1, 100)
                         , Faker.DateTimeFaker.DateTimeBetweenDays(1, 30)
