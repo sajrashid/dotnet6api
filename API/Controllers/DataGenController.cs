@@ -78,7 +78,7 @@ using Microsoft.Extensions.Configuration;
                 for (int i = 0; i < 100000; i++)
                 {
 
-                    Rows.Add(string.Format("('{0}','{1}','{2}','{3}','{4}','{5}','{6}')"
+                    Rows.Add(string.Format("('{0}','{1}','{2}','{3}','{4}','{5}')"
                         , MySqlHelper.EscapeString(Faker.CompanyFaker.Name())
                         , MySqlHelper.EscapeString(Faker.PhoneFaker.Phone())
                         , Faker.NumberFaker.Number(1, 1000)
