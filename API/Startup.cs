@@ -34,14 +34,6 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddLogging(loggingBuilder =>
-            loggingBuilder.AddSerilog(dispose: true));
-
-            var loggerServices = new ServiceCollection()
-               .AddLogging(builder =>
-               {
-                   builder.AddSerilog();
-               });
             services.AddControllers();
             services.AddSwaggerGen(swagger =>
            {
@@ -108,24 +100,6 @@ namespace API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            ILogger logger = new LoggerConfiguration()
-                  .Enrich.WithProperty("App Name", "Serilog Web App Sample")
-                .ReadFrom.Configuration(this.Configuration.GetSection("Serilog"))
-                .Enrich.FromLogContext()
-                       // .Enrich.WithProperty("MyLabelPropertyName", "MyPropertyValue")
-                        .Enrich.WithThreadId()
-                        .WriteTo.Console()
-                        .WriteTo.GrafanaLoki(
-                    "http://178.79.184.83:3100")
-                .CreateLogger();
-            logger.Information("Initiating API Start-up Sequence");
-            logger.Debug("This is a debug message");
-            try
-            {
-                var startTime = DateTimeOffset.UtcNow;
-
-                logger.Information("Started at {StartTime} and 0x{Hello:X} is hex of 42", startTime, 42);
-
 
                 if (env.IsDevelopment())
                 {
@@ -149,16 +123,6 @@ namespace API
                     endpoints.MapControllers();
                 });
                 app.UseAuthentication();
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "Host terminated unexpectedly");
-                return;
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
         }
     }
 }
