@@ -69,8 +69,10 @@ using MySqlX.XDevAPI.Common;
         }
 
 
-        public async void BulkToMySQL()
+        public  void BulkToMySQL()
         {
+            this._logger.LogInformation(System.Reflection.MethodBase.GetCurrentMethod().Name);
+            this._logger.LogInformation(this.connString);
             string ConnectionString = this.connString;
             StringBuilder sCommand = new StringBuilder("INSERT INTO Products (Company, Phone,Price,InStock,StockCount,NewStockDate) VALUES ");
             using (MySqlConnection mConnection = new MySqlConnection(ConnectionString))
@@ -90,12 +92,22 @@ using MySqlX.XDevAPI.Common;
                 }
                 sCommand.Append(string.Join(",", Rows));
                 sCommand.Append(";");
-                mConnection.Open();
-                using (MySqlCommand myCmd = new MySqlCommand(sCommand.ToString(), mConnection))
+                try
                 {
-                    myCmd.CommandType = CommandType.Text;
-                    await  myCmd.ExecuteNonQueryAsync();
+                    mConnection.Open();
+                    this._logger.LogInformation("DataGen opening connection");
+                    using (MySqlCommand myCmd = new MySqlCommand(sCommand.ToString(), mConnection))
+                    {
+                        myCmd.CommandType = CommandType.Text;
+                        myCmd.ExecuteNonQueryAsync();
+                    }
                 }
+                catch (Exception e)
+                {
+                    this._logger.LogError("oops:" + e.Message);
+                    throw;
+                }
+              
             }
         }
 
@@ -107,7 +119,7 @@ using MySqlX.XDevAPI.Common;
         public async Task<ActionResult> Get()
         {
             BulkToMySQL();
-            return Ok ();
+            return new StatusCodeResult(200);
         }
     }
 
