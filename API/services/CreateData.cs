@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Api.Controllers;
 using Dapper;
+using API.DTOs;
 
 namespace Api.services
 {
@@ -18,12 +19,12 @@ namespace Api.services
 
 		public async Task<ActionResult> GenerateProductsList()
 		{
-			var ProductList = new List<Product>();
+			var ProductList = new List<ProductsDto>();
 			await Task.Run(() =>
 			{
 				for (int i = 0; i < 1000; i++)
 				{
-					var product = new Product();
+					var product = new ProductsDto();
 					product.Company = Faker.CompanyFaker.Name();
 					product.Phone = Faker.PhoneFaker.Phone();
 					product.Price = Faker.NumberFaker.Number(1, 1000);
