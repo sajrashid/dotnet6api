@@ -111,7 +111,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("GetAllUsers")]
+        [HttpGet("GetAllProducts")]
         public async Task<ActionResult<List<UsersDto>>> GetAllProducts()
         {
             var products = new List<ProductsDto>();
