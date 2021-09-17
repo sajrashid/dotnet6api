@@ -35,7 +35,7 @@ services:
       MYSQL_ROOT_PASSWORD: Root0++
       MYSQL_USER: newuser
       MYSQL_PASSWORD: M0use!in99
-      # MYSQL_DATABASE: Usersdb
+      MYSQL_DATABASE: Usersdb
   #Api  Service
   api:
     build:

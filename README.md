@@ -31,7 +31,7 @@ cd to sql folder usr/bin
 
 mysql -u root -p At the Enter password: prompt, well, enter root's password
 
- mysql --user="root" --database="Usersdb" --password="Root0++" < "sql-scripts"
+ mysql --user="root" --database="Userssdb" --password="Root0++" < "sql-scripts"
 
  or
 
