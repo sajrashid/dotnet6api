@@ -111,6 +111,32 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet("GetAllUsers")]
+        public async Task<ActionResult<List<UsersDto>>> GetAllProducts()
+        {
+            var products = new List<ProductsDto>();
+            try
+            {
+                string query = @"SELECT * FROM Products";
+                using (var connection = new MySqlConnection(this.connString))
+                {
+                    var result = await connection.QueryAsync<ProductsDto>(query, CommandType.Text);
+                    products = result.ToList();
+                }
+                if (products.Count > 0)
+                {
+                    return Ok(products);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Unable To Process Request");
+            }
+        }
 
         // create a http put request to update a user
         [HttpPut("UpdateUser")] // update a user

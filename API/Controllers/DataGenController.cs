@@ -40,34 +40,6 @@ using MySqlX.XDevAPI.Common;
             connString = $"server={host}; userid={userid};pwd={password};port={port};database={usersDataBase}";
         }
 
-        private async Task<List<Product>> GenerateProductsList()
-        {
-            var ProductList = new List<Product>();
-            await Task.Run(() =>
-            {
-                for (int i = 0; i < 1000; i++)
-                {
-                    var product = new Product();
-                    product.Company = Faker.CompanyFaker.Name();
-                    product.Phone = Faker.PhoneFaker.Phone();
-                    product.Price = Faker.NumberFaker.Number(1, 1000);
-                    product.InStock = Faker.BooleanFaker.Boolean();
-                    if (product.InStock == false) {
-                        product.StockCount = 0;
-                    }
-                    else
-                    {
-                        product.StockCount = Faker.NumberFaker.Number(1, 100);
-                    }
-                    product.NewStockDate = Faker.DateTimeFaker.DateTimeBetweenDays(1, 30);
-                    ProductList.Add(product);
-                }
-            });
-
-
-            return ProductList;
-        }
-
 
         public  void BulkToMySQL()
         {
@@ -124,15 +96,5 @@ using MySqlX.XDevAPI.Common;
     }
 
 
-    public class Product
-    {
-        public int Id { get; set; }
-        public string Company { get; set; }
-        public string Phone {  get; set; }
-        public decimal Price { get; set; }
-        public bool InStock { get; set; }
-        public int StockCount { get; set; }
-        public DateTime NewStockDate { get; set; }
-
-    }
+   
 }
