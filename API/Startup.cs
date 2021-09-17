@@ -14,18 +14,14 @@ namespace API
     using Microsoft.IdentityModel.Tokens;
     using Microsoft.OpenApi.Models;
     using Serilog;
-    using Serilog.Sinks.Grafana.Loki;
-    using Serilog.Debugging;
-using Microsoft.Extensions.Logging;
-
     public class Startup
     {
-        private readonly ILogger<Startup> _logger;
+        private readonly ILogger _logger;
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
         /// <param name="configuration">CONFIG.</param>
-        public Startup(IConfiguration configuration, ILogger<Startup> logger)
+        public Startup(IConfiguration configuration, ILogger logger)
         {
             this.Configuration = configuration;
             _logger = logger;
