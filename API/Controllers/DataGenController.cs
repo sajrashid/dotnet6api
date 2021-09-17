@@ -71,7 +71,7 @@ using Microsoft.Extensions.Configuration;
         public async void BulkToMySQL()
         {
             string ConnectionString = this.connString;
-            StringBuilder sCommand = new StringBuilder("INSERT INTO Products (FirstName, LastName) VALUES ");
+            StringBuilder sCommand = new StringBuilder("INSERT INTO Products (Company, Phone,Price,InStock,StockCount,NewStockDate) VALUES ");
             using (MySqlConnection mConnection = new MySqlConnection(ConnectionString))
             {
                 List<string> Rows = new List<string>();
