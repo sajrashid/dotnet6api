@@ -16,15 +16,13 @@ namespace API
     using Serilog;
     public class Startup
     {
-        private readonly ILogger _logger;
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
         /// <param name="configuration">CONFIG.</param>
-        public Startup(IConfiguration configuration, ILogger logger)
+        public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
-            _logger = logger;
         }
 
         public IConfiguration Configuration { get; }
@@ -98,8 +96,6 @@ namespace API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            _logger.LogInformation("Staring API");
-
             if (env.IsDevelopment())
                 {
                     app.UseDeveloperExceptionPage();
