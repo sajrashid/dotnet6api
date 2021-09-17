@@ -16,17 +16,19 @@ namespace API
     using Serilog;
     using Serilog.Sinks.Grafana.Loki;
     using Serilog.Debugging;
+using Microsoft.Extensions.Logging;
+
     public class Startup
     {
-        private const string OutputTemplate =
-            "{Timestamp:dd-MM-yyyy HH:mm:ss} [{Level:u3}] [{ThreadId}] {Message}{NewLine}{Exception}";
+        private readonly ILogger<Startup> _logger;
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
         /// <param name="configuration">CONFIG.</param>
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             this.Configuration = configuration;
+            _logger = logger;
         }
 
         public IConfiguration Configuration { get; }
@@ -100,8 +102,9 @@ namespace API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            _logger.LogInformation("Staring API");
 
-                if (env.IsDevelopment())
+            if (env.IsDevelopment())
                 {
                     app.UseDeveloperExceptionPage();
                     app.UseForwardedHeaders();
