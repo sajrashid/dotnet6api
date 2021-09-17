@@ -118,7 +118,7 @@ namespace API
                         .WriteTo.GrafanaLoki(
                     "http://178.79.184.83:3100")
                 .CreateLogger();
-            logger.Information("The god of the day is ");
+            logger.Information("Initiating API Start-up Sequence");
             logger.Debug("This is a debug message");
             try
             {
