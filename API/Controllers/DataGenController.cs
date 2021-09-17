@@ -41,7 +41,12 @@ using MySqlX.XDevAPI.Common;
         }
 
 
-        public  void BulkToMySQL()
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        [HttpGet]
+        public async Task<ActionResult> Get()
         {
             this._logger.LogInformation(System.Reflection.MethodBase.GetCurrentMethod().Name);
             this._logger.LogInformation(this.connString);
@@ -71,7 +76,7 @@ using MySqlX.XDevAPI.Common;
                     using (MySqlCommand myCmd = new MySqlCommand(sCommand.ToString(), mConnection))
                     {
                         myCmd.CommandType = CommandType.Text;
-                        myCmd.ExecuteNonQueryAsync();
+                        await myCmd.ExecuteNonQueryAsync();
                     }
                 }
                 catch (Exception e)
@@ -79,18 +84,8 @@ using MySqlX.XDevAPI.Common;
                     this._logger.LogError("oops:" + e.Message);
                     throw;
                 }
-              
-            }
-        }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        [HttpGet]
-        public async Task<ActionResult> Get()
-        {
-            BulkToMySQL();
+            }
             return new StatusCodeResult(200);
         }
     }
