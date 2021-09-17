@@ -4,6 +4,7 @@
     using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
     using System.Text.Json;
     using System.Threading.Tasks;
 using API.Controllers;
@@ -66,6 +67,37 @@ using Microsoft.Extensions.Configuration;
             return ProductList;
         }
 
+
+        public async void BulkToMySQL()
+        {
+            string ConnectionString = this.connString;
+            StringBuilder sCommand = new StringBuilder("INSERT INTO Products (FirstName, LastName) VALUES ");
+            using (MySqlConnection mConnection = new MySqlConnection(ConnectionString))
+            {
+                List<string> Rows = new List<string>();
+                for (int i = 0; i < 100000; i++)
+                {
+
+                    Rows.Add(string.Format("('{0}','{1}','{2}','{3}','{4}','{5}','{6}')"
+                        , MySqlHelper.EscapeString(Faker.CompanyFaker.Name())
+                        , MySqlHelper.EscapeString(Faker.PhoneFaker.Phone())
+                        , Faker.NumberFaker.Number(1, 1000)
+                        , Faker.BooleanFaker.Boolean()
+                        , Faker.NumberFaker.Number(1, 100)
+                        , Faker.DateTimeFaker.DateTimeBetweenDays(1, 30)
+                        ));
+                }
+                sCommand.Append(string.Join(",", Rows));
+                sCommand.Append(";");
+                mConnection.Open();
+                using (MySqlCommand myCmd = new MySqlCommand(sCommand.ToString(), mConnection))
+                {
+                    myCmd.CommandType = CommandType.Text;
+                    await  myCmd.ExecuteNonQueryAsync();
+                }
+            }
+        }
+
         /// <summary>
         ///
         /// </summary>
@@ -73,28 +105,8 @@ using Microsoft.Extensions.Configuration;
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-           var productList=await GenerateProductsList();
-
-            var createTableSql = @"CREATE TABLE IF NOT EXISTS Products (
-                    Id INT AUTO_INCREMENT PRIMARY KEY,
-                    Company VARCHAR(255) NOT NULL,
-                    Price INT NOT NULL,
-                    Phone VARCHAR(255) NOT NULL,
-                    InStock BOOLEAN NOT NULL,
-                    NewStockDate DATE NOT NULL,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                );";
-
-            //string query = $@"SELECT * FROM Users where IP= { iP }";
-            //SqlBulkCopy objbulk = new SqlBulkCopy(this.connString);
-            //objbulk.DestinationTableName = "tblTest";
-            //objbulk.BatchSize(1000);
-            //objbulk.SqlRowsCopied();
-            using (var connection = new MySqlConnection(this.connString))
-            {
-                 await connection.ExecuteAsync(createTableSql, CommandType.Text);
-            }
-            return Ok (productList);
+            BulkToMySQL();
+            return Ok ();
         }
     }
 
