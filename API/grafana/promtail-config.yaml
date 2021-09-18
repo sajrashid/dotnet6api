@@ -9,7 +9,7 @@ positions:
 
 # address of loki server to which promtail should push the logs
 clients:
-  - url: http://localhost:3100/loki/api/v1/push
+  - url: http://192.168.135.49:3100/loki/api/v1/push
 
 # which logs to read/scrape
 scrape_configs:
