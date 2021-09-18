@@ -5,6 +5,7 @@ version: '3.4'
 #create a volume for the my sql container.To ensure Data persists after my sql container is stopped
 volumes:
   datafiles:
+  prometheus_data: {}
 networks:
   monitor-net:
     driver: bridge
