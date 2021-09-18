@@ -13,7 +13,7 @@ networks:
 
 services:
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v2.30.0
     container_name: prometheus
     ports:
     - 9090:9090
@@ -37,7 +37,7 @@ services:
     depends_on:
     - cadvisor
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
+    image: gcr.io/cadvisor/cadvisor:v0.40.0
     container_name: cadvisor
     privileged: true
     devices:
@@ -57,7 +57,7 @@ services:
     depends_on:
     - node-exporter
   node-exporter:
-    image: prom/node-exporter
+    image: prom/node-exporter:v1.2.2
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -72,8 +72,17 @@ services:
     networks:
       - monitor-net
     restart:  unless-stopped
-    depends_on:
-     - reverseproxy
+
+  pushgateway:
+    image: prom/pushgateway:v1.4.1
+    container_name: pushgateway
+    restart: unless-stopped
+    expose:
+      - 9091
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
   # reverse proxy
   reverseproxy:
     build:
