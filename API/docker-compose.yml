@@ -34,8 +34,7 @@ services:
       - monitor-net
     labels:
       org.label-schema.group: "monitoring"
-    depends_on:
-    - cadvisor
+   
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.40.0
     container_name: cadvisor
@@ -54,24 +53,26 @@ services:
       - monitor-net
     labels:
       org.label-schema.group: "monitoring"
-    depends_on:
-    - node-exporter
-  node-exporter:
+
+  nodeexporter:
     image: prom/node-exporter:v1.2.2
+    container_name: nodeexporter
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /:/rootfs:ro
-    command: 
+    command:
       - '--path.procfs=/host/proc'
       - '--path.rootfs=/rootfs'
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    restart: unless-stopped
     expose:
       - 9100
     networks:
       - monitor-net
-    restart:  unless-stopped
+    labels:
+      org.label-schema.group: "monitoring"
 
   pushgateway:
     image: prom/pushgateway:v1.4.1
