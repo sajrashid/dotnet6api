@@ -94,25 +94,6 @@ services:
       - "443:443"
     restart: always
 
-  #DataBase Service
-  database:
-    #Pull the latest mysql image
-    image: mysql:8.0.26
-    cap_add:
-      - SYS_NICE  # CAP_SYS_NICE
-    #Map port 3306 on the mysql container to port 3306 in the host
-    ports:
-      - "3306:3306"
-    #Specify where the persisted Data should be stored
-    volumes:
-      - ./sql-scripts:/docker-entrypoint-initdb.d/
-    restart: unless-stopped
-    #Specify Environment Variables for mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: Root0++
-      MYSQL_USER: newuser
-      MYSQL_PASSWORD: M0use!in99
-      MYSQL_DATABASE: Usersdb
   #Api  Service
   api:
     build:
@@ -121,7 +102,6 @@ services:
       dockerfile: Dockerfile
     #This Service Depends on the database service specifed above
     depends_on:
-      - database
       - reverseproxy
     #Map port 8888 in the docker container to port 80 in the Api
     # ports:
