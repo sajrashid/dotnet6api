@@ -113,6 +113,6 @@ services:
       - 3306
     #Specify Environment Variables for the Api Service
     environment:
-      - DBHOST=178.79.141.163
+      - DBHOST=192.168.135.49
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
