@@ -9,7 +9,7 @@ apt-get upgrade
 sudo apt install git docker-ce docker-compose
 
 
-git clone https://sajrashid:r3dstar99@github.com/sajrashid/DocsAPI.git
+git clone https://sajrashid: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@github.com/sajrashid/DocsAPI.git
 
 git clone https://github.com/sajrashid/DocsAPI/
 

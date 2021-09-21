@@ -1,4 +1,11 @@
 version: "3"
+volumes:
+  mysql-data:
+    driver: local
+  mysql-log:
+    driver: local
+  mysql-conf:
+    driver: local
 
 networks:
   loki:
@@ -38,6 +45,9 @@ services:
       - "3306:3306"
     #Specify where the persisted Data should be stored
     volumes:
+      - "mysql-data:/var/lib/mysql"
+      - "mysql-log:/var/log/mysql"
+      - "mysql-conf:/etc/mysql/conf.d"
       - ./sql-scripts:/docker-entrypoint-initdb.d/
     restart: unless-stopped
     #Specify Environment Variables for mysql
@@ -46,3 +56,4 @@ services:
       MYSQL_USER: newuser
       MYSQL_PASSWORD: M0use!in99
       MYSQL_DATABASE: Usersdb
+
