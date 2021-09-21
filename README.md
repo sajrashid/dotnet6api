@@ -125,3 +125,6 @@ sudo apt-get install etckeeper
 promtail
 
 sudo promtail -config.file ./config-promtail.yml
+
+
+2ea2e6a7-da0d-46d9-8ba9-3bba9057baa9
