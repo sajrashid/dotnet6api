@@ -87,7 +87,6 @@ namespace TestProject.MockTests.Controllers
             listProducts = (List<Product>)result.Value;
             listProducts.Should().HaveCount(3);
             listProducts.Should().BeOfType<List<Product>>();
-
         }
 
         [Fact]
@@ -176,9 +175,7 @@ namespace TestProject.MockTests.Controllers
             product = (Product)result.Value;
             product.Id.Should().Be(productToUpDate.Id);
             product.Should().BeOfType<Product>();
-
         }
-
 
         [Fact]
         [Trait("API", "Unit")]
@@ -212,7 +209,6 @@ namespace TestProject.MockTests.Controllers
             product = (Product)result.Value;
             product.Id.Should().Be(productToInsert.Id);
             product.Should().BeOfType<Product>();
-
         }
     }
 }
