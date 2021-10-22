@@ -18,7 +18,6 @@ namespace TestProject.MockTests.Controllers
     public class ProductControllerTests
     {
         private readonly IProductRepository fakeProductRepository;
-
         public ProductControllerTests()
         {
             fakeProductRepository = A.Fake<IProductRepository>();
@@ -69,7 +68,6 @@ namespace TestProject.MockTests.Controllers
             });
 
             // Act
-
             var response = await productController.Get().ConfigureAwait(false);
 
             // Assert
@@ -89,9 +87,6 @@ namespace TestProject.MockTests.Controllers
             listProducts = (List<Product>)result.Value;
             listProducts.Should().HaveCount(3);
             listProducts.Should().BeOfType<List<Product>>();
-
-
-
 
         }
 
@@ -131,7 +126,6 @@ namespace TestProject.MockTests.Controllers
         [Trait("API", "Unit")]
         public async Task DeleteProductReturnDeletedProductId()
         {
-
             // Arrange
             const int id = 1;
             A.CallTo(() => fakeProductRepository.DeleteProduct(id)).Returns(id);
@@ -140,7 +134,6 @@ namespace TestProject.MockTests.Controllers
             // Act
             var response = await productController.Delete(id
                 ).ConfigureAwait(false);
-
 
             // Assert
             OkObjectResult result = response.Result as OkObjectResult;
@@ -191,7 +184,7 @@ namespace TestProject.MockTests.Controllers
         [Trait("API", "Unit")]
         public async Task InsertProductReturnsInsertedProdcut()
         {
-            var resourceId = 1001;
+            const int resourceId = 1001;
             var productToInsert = new Product()
             {
                 Id = 1001,
@@ -209,7 +202,6 @@ namespace TestProject.MockTests.Controllers
             // Act
             var response = await productController.Put(resourceId, productToInsert
                 ).ConfigureAwait(false);
-
 
             // Assert
             OkObjectResult result = response.Result as OkObjectResult;
