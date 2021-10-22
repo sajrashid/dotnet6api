@@ -1,4 +1,3 @@
-
 namespace MyAPI.Controllers
 {
     using Microsoft.AspNetCore.Authorization;

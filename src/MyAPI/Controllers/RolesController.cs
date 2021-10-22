@@ -33,7 +33,6 @@ namespace MyAPI.Controllers
             return Ok(product);
         }
 
-
         [HttpDelete("{id}")]
         public async Task<ActionResult<int>> Delete(int id)
         {

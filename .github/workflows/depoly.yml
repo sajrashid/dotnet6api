@@ -41,14 +41,13 @@ jobs:
         run: dotnet test --no-build --verbosity normal
 
       #- name: variable substitution in json
-      #  uses: microsoft/variable-substitution@v1 
+      #  uses: microsoft/variable-substitution@v1
       #  with:
-      #   files: './src/MyAPI/appsettings.json'  
+      #   files: './src/MyAPI/appsettings.json'
       #  env:
       #    ConnectionStrings.MySqlDB: ${{ secrets.CONNECTIONSTRING }}
       #    url: https://github.com/${{github.repository}}
 
-   
       - name: run commands via SSH
         uses: garygrossgarten/github-action-ssh@release
         with:
@@ -63,7 +62,3 @@ jobs:
           privateKey: ${{ secrets.PRIVATE_KEY}}
         env:
           CI: true
-
-    # create gihub action to build and run tests using dotnet
-    #     git clone https://sajrashid:${{secrets.GITREPOTOKEN}}@github.com/sajrashid/DocsAPI.git
-    # curl to api test 
