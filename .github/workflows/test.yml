@@ -80,7 +80,3 @@ jobs:
              curl 'https://imgloader.co.uk/swagger/index.html'
              curl -X 'GET' 'https://imgloader.co.uk/api/Products/1' -H 'accept: text/plain'
 
-     
-        
-
-
