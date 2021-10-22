@@ -3,7 +3,6 @@ using System.Text.Json;
 
 namespace TestProject
 {
-
     public class ConnectionString
     {
         public string ConnString { get; set; }
@@ -41,5 +40,3 @@ namespace TestProject
         }
     }
 }
-
-
