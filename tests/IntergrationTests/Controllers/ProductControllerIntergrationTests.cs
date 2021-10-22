@@ -1,5 +1,4 @@
-﻿
-using FluentAssertions;
+﻿using FluentAssertions;
 
 using Microsoft.AspNetCore.Mvc.Testing;
 
@@ -155,7 +154,6 @@ namespace TestProject.IntergrationTests.Controllers
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
-
         [Fact]
         public async Task Update_New_Product_Returns_Single_Products_OK()
         {
@@ -224,5 +222,3 @@ namespace TestProject.IntergrationTests.Controllers
         }
     }
 }
-
-
