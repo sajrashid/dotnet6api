@@ -44,7 +44,6 @@ namespace TestProject
             // Create Test Visitor 2
             var visitor2 = CreateTestVisitor("Chrome", "111.222.224.5222");
             await visitorRepo.InsertVisitor(visitor2).ConfigureAwait(false);
-
         }
 
         public void CreateProducts()
@@ -118,7 +117,6 @@ namespace TestProject
                 UserId = 1
             };
             rolesRepo.InsertRoles(role).ConfigureAwait(false);
-
         }
 
         public void DeleteUserAndRoles()
@@ -150,7 +148,6 @@ namespace TestProject
             return user;
         }
 
-
         public void CreateListTestUsers()
         {
             var accountsRepo = new AccountRepository(conn);
@@ -163,7 +160,6 @@ namespace TestProject
                 var hash = SecurityHelper.GenerateHash(salt, password);
                 accountsRepo.CreateUser(salt, hash, email).ConfigureAwait(false);
             }
-
         }
         public Visitor CreateTestVisitor(string userAgent, string ip)
         {
@@ -176,7 +172,6 @@ namespace TestProject
                 LastVisit = DateTime.Now,
             };
         }
-
         public void Dispose()
         {
             conn.Close();
