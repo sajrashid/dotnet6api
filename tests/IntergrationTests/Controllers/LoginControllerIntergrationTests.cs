@@ -112,7 +112,6 @@ namespace TestProject.IntergrationTests.Controllers
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
         }
         [Fact]
         public async Task Validate_With_Lowercase_And_Number_Password_Returns_BadRequest()
@@ -127,7 +126,6 @@ namespace TestProject.IntergrationTests.Controllers
             var response = await _client.PostAsync("/api/login/", data);
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
         }
 
         [Fact]
@@ -143,7 +141,6 @@ namespace TestProject.IntergrationTests.Controllers
             var response = await _client.PostAsync("/api/login/", data);
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
         }
 
         [Fact]
@@ -159,7 +156,6 @@ namespace TestProject.IntergrationTests.Controllers
             var response = await _client.PostAsync("/api/login/", data);
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
         }
 
         [Fact]
@@ -175,7 +171,6 @@ namespace TestProject.IntergrationTests.Controllers
             var response = await _client.PostAsync("/api/login/", data);
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
         }
 
         [Fact]
@@ -194,7 +189,6 @@ namespace TestProject.IntergrationTests.Controllers
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
         }
 
 
@@ -214,7 +208,6 @@ namespace TestProject.IntergrationTests.Controllers
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
         }
 
         [Fact]
@@ -238,6 +231,5 @@ namespace TestProject.IntergrationTests.Controllers
     {
         public string Token { get; set; }
         public string Message { get; set; }
-
     }
 }

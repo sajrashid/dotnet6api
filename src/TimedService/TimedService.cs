@@ -28,7 +28,7 @@ namespace TimedService
             return Task.CompletedTask;
         }
 
-        private void DoWork(object? state)
+        private void DoWork(object state)
         {
             var count = Interlocked.Increment(ref executionCount);
 

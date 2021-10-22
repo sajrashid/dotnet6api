@@ -38,7 +38,6 @@ namespace TestProject.IntergrationTests.Controllers
             testData = new TestData();
             // delete users 
             testData.DeleteAccounts();
-
         }
 
         [Fact]
@@ -76,6 +75,7 @@ namespace TestProject.IntergrationTests.Controllers
             var token = _tokenFixture.GetToken();
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
             // Arrange
             Auth user = new Auth { Email = "testUser@test.com", Password = "Password99" };
 
@@ -89,12 +89,9 @@ namespace TestProject.IntergrationTests.Controllers
             var res = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             res.Should().BeOfType<string>();
             res.Should().Contain("Account Created, Please Login.");
-
-            //Act
-            response = await _client.PostAsync("/api/accounts/", data);
-
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.Conflict);
             // Assert
+            response = await _client.PostAsync("/api/accounts/", data);
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.Conflict);
         }
 
         [Fact]
@@ -125,7 +122,6 @@ namespace TestProject.IntergrationTests.Controllers
             var response = await _client.GetAsync("/api/accounts/1001");
             // Assert
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
-
         }
         [Fact]
         public async Task Post_Bad_Password_Returns_BadRequest()
