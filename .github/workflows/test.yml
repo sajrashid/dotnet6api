@@ -37,7 +37,7 @@ jobs:
           mysql  -uroot -proot < "setup.sql"
       - name: Restore dependencies
         run:  dotnet restore
-         
+
       - name: Build
         run: dotnet build --no-restore
 
@@ -45,14 +45,13 @@ jobs:
         run: dotnet test --no-build --verbosity normal
 
       - name: variable substitution in json yaml
-        uses: microsoft/variable-substitution@v1 
+        uses: microsoft/variable-substitution@v1
         with:
          files: './src/MyAPI/appsettings.json, ./src/MyAPI/docker-compose.prod.mysql.yml'
         env:
           Jwt.Key:  ${{ secrets.JWT_KEY }}
           Jwt.Issuer:  ${{ secrets.JWT_ISSUER }}
           ConnectionStrings.MySqlDB: ${{ secrets.CONNECTIONSTRING }}
-         
           services.database.environment.MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
           services.database.environment.MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
           services.database.environment.MYSQL_USER: ${{ secrets.MYSQL_USER }}
@@ -76,19 +75,11 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.USERNAME}}
           privateKey: ${{ secrets.PRIVATE_KEY}}
-      
       - name: Post Deployment tests
         run: |
              curl 'https://imgloader.co.uk/swagger/index.html'
              curl -X 'GET' 'https://imgloader.co.uk/api/Products/1' -H 'accept: text/plain'
 
-              
-              
-              
-              
-             
-            
-          # url: https://github.com/${{github.repository}}
      
         
 
