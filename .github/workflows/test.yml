@@ -1,0 +1,95 @@
+name: CI-CD
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+jobs:
+  test_build:
+    runs-on: ubuntu-latest
+    env:
+      DB_DATABASE: testdb
+      DB_USER: root
+      DB_PASSWORD: "root"
+      DB_HOST: localhost
+      ASPNETCORE_ENVIRONMENT: Development
+
+    steps:
+
+      - name: Start MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE testdb;' -uroot -proot
+          mysql -e 'SHOW DATABASES;' -uroot -proot
+
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+          include-prerelease: true
+
+      - name: Run SQL script
+        run: |
+          mysql  -uroot -proot < "setup.sql"
+      - name: Restore dependencies
+        run:  dotnet restore
+         
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+
+      - name: variable substitution in json yaml
+        uses: microsoft/variable-substitution@v1 
+        with:
+         files: './src/MyAPI/appsettings.json, ./src/MyAPI/docker-compose.prod.mysql.yml'
+        env:
+          Jwt.Key:  ${{ secrets.JWT_KEY }}
+          Jwt.Issuer:  ${{ secrets.JWT_ISSUER }}
+          ConnectionStrings.MySqlDB: ${{ secrets.CONNECTIONSTRING }}
+         
+          services.database.environment.MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          services.database.environment.MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          services.database.environment.MYSQL_USER: ${{ secrets.MYSQL_USER }}
+          services.database.environment.MYSQL_DATABASE:  ${{ secrets.MYSQL_DATABASE }}
+
+      - name: scp files
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: src
+          remote: scp/
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.USERNAME}}
+          privateKey: ${{ secrets.PRIVATE_KEY}}
+
+      - name: run docker-compose via SSH
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: |
+                cd scp/MyAPI
+                docker-compose -f docker-compose.prod.yml up --build -d
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.USERNAME}}
+          privateKey: ${{ secrets.PRIVATE_KEY}}
+      
+      - name: Post Deployment tests
+        run: |
+             curl 'https://imgloader.co.uk/swagger/index.html'
+             curl -X 'GET' 'https://imgloader.co.uk/api/Products/1' -H 'accept: text/plain'
+
+              
+              
+              
+              
+             
+            
+          # url: https://github.com/${{github.repository}}
+     
+        
+
+

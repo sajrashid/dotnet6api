@@ -1,0 +1,44 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+#create a volume for the my sql container.To ensure Data persists after my sql container is stopped
+volumes:
+  datafiles:
+networks:
+  monitor-net:
+    driver: bridge
+
+services:
+  # reverse proxy
+  reverseproxy:
+    build:
+      context: ./nginx
+      dockerfile: Nginx.Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+
+  #API  Service
+  api:
+    build:
+      context: .
+      #Use the DockerFile in that Directory
+      dockerfile: Dockerfile
+    #This Service Depends on the database service specifed above
+    depends_on:
+      - reverseproxy
+    #Map port 8888 in the docker container to port 80 in the API
+    # ports:
+    #  - "3306:3306"
+    #      - "3306 my SQL"
+    #      - "443:443"
+    restart: always
+    expose:
+      - 3306
+    #Specify Environment Variables for the API Service
+    environment:
+      - DBHOST=192.168.135.49  # this is a local IP safe to check in to git
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80

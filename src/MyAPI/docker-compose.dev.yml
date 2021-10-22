@@ -1,0 +1,74 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+#create a volume for the my sql container.To ensure Data persists after my sql container is stopped
+volumes:
+  datafiles:
+  mysql-data:
+    driver: local
+  mysql-log:
+    driver: local
+  mysql-conf:
+    driver: local
+
+services:
+ # reverse proxy
+  reverseproxy:
+    build:
+      context: ./nginx-dev
+      dockerfile: Nginx.Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+  #DataBase Service
+  database:
+    #Pull the latest mysql image
+    image: mysql:8.0.26
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
+    #Map port 3306 on the mysql container to port 3306 in the host
+    ports:
+      - "3306:3306"
+
+    #Specify where the persisted Data should be stored
+    volumes:
+      - "mysql-data:/var/lib/mysql"
+      - "mysql-log:/var/log/mysql"
+      - "mysql-conf:/etc/mysql/conf.d"
+      - ./sql-scripts:/docker-entrypoint-initdb.d/
+    restart: always
+    #Specify Environment Variables for mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: newuser
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: Usersdb
+
+  #API  Service
+  api:
+    build:
+      context: .
+      #Use the DockerFile in that Directory
+      dockerfile: Dockerfile
+    #This Service Depends on the database service specifed above
+    depends_on:
+      - reverseproxy
+      - database
+    #Map port 3306 on the mysql container to port 3306 in the host
+     
+    restart: always
+    # ports:
+       #- "443:443"
+       #- "5000:80"
+    #Specify Environment Variables for the API Service
+    environment:
+      - DBHOST=database
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=SECRETPASSWORD
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+

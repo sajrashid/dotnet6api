@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AuthSrvc.cs" />
+    <Compile Remove="DbFixture.cs" />
+    <Compile Remove="IntergrationTests\APITests.cs" />
+    <Compile Remove="TestSetup.cs" />
+    <Compile Remove="UnAuthTest.cs" />
+    <Compile Remove="UserControllerTest.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="DapperExtensions" Version="1.7.0" />
+	  <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.0-rc.1.*" />
+    <PackageReference Include="FakeItEasy" Version="7.2.0" />
+    <PackageReference Include="FluentAssertions" Version="6.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.0-rc.1.*" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="3.1.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\MyAPI\MyAPI.csproj" />
+  </ItemGroup>
+	<ItemGroup>
+		<Content Include="sql-scripts\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Remove="sql-scripts\mysql-setup.sql" />
+	  <Content Remove="sql-scripts\teardown.sql" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="xunit.runner.json" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="xunit.runner.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="settings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="sql-scripts\teardown.sql">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="sql-scripts\mysql-setup.sql">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+</Project>

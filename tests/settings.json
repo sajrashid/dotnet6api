@@ -1,0 +1,3 @@
+{
+  "ConnString": "server=localhost; userid=root;pwd=root;database=testdb;UseAffectedRows=True;"
+}
