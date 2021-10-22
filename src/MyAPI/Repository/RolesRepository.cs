@@ -19,7 +19,7 @@ namespace MyAPI.Repository
         {
             using (_conn)
             {
-              return await _conn.QueryAsync<Roles>("SELECT * FROM Roles;").ConfigureAwait(false);
+                return await _conn.QueryAsync<Roles>("SELECT * FROM Roles;").ConfigureAwait(false);
             }
         }
 
@@ -70,7 +70,7 @@ namespace MyAPI.Repository
             const string? sql = "Insert INTO Roles SET Role = @role,UserId =@userid; select LAST_INSERT_ID();";
             using (_conn)
             {
-                
+
                 role.Id = await _conn.ExecuteScalarAsync<int>(sql, parameters).ConfigureAwait(false);
                 return role;
             }

@@ -70,8 +70,8 @@ namespace MyAPI.Repository
             const string? sql = "Insert INTO Products SET Company = @company,Phone =@phone, Price = @price, InStock = @InStock,StockCount= @StockCount,NewStockDate= @NewStockDate; select LAST_INSERT_ID();";
             using (_conn)
             {
-                    productToInsert.Id = await _conn.ExecuteScalarAsync<int>(sql, parameters).ConfigureAwait(false);
-                    return productToInsert;
+                productToInsert.Id = await _conn.ExecuteScalarAsync<int>(sql, parameters).ConfigureAwait(false);
+                return productToInsert;
             }
         }
     }

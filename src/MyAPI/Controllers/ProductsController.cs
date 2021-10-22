@@ -62,9 +62,9 @@ namespace MyAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<int>> Put(int id, [FromBody] Product product)
         {
-            var rowsAffected = await repo.UpdateProduct(id,product);
+            var rowsAffected = await repo.UpdateProduct(id, product);
             // check if product collection is not empty
-            if (rowsAffected == 0 )
+            if (rowsAffected == 0)
             {
                 return NotFound();  // return 404        
             }

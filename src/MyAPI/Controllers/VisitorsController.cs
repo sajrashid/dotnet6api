@@ -75,7 +75,7 @@ namespace MyAPI.Controllers
 
             exisitingVisitor.LastVisit = DateTime.Now;
             exisitingVisitor.Count++;
-            await repo.UpdateVisitor(1,exisitingVisitor).ConfigureAwait(false);
+            await repo.UpdateVisitor(1, exisitingVisitor).ConfigureAwait(false);
             return new StatusCodeResult(200);
         }
 
@@ -87,9 +87,9 @@ namespace MyAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<int>> Put(int id, [FromBody]  Visitor visitors)
+        public async Task<ActionResult<int>> Put(int id, [FromBody] Visitor visitors)
         {   // update a user
-            await repo.UpdateVisitor(id,visitors).ConfigureAwait(false);
+            await repo.UpdateVisitor(id, visitors).ConfigureAwait(false);
             return Ok(visitors);
         }
 

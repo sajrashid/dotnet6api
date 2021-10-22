@@ -60,7 +60,7 @@ namespace MyAPI.Controllers
         {
             var rowsAffected = await repo.UpdateRoles(id, roles);
             // check if product collection is not empty
-            if (rowsAffected == 0 )
+            if (rowsAffected == 0)
             {
                 return NotFound();  // return 404        
             }

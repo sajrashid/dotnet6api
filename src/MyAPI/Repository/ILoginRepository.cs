@@ -8,6 +8,6 @@ namespace MyAPI.Repository
         public Task<User> GetUserByEmail(string email);
 
         public Task<IEnumerable<User>> GetAllUsers();
-        
+
     }
 }
