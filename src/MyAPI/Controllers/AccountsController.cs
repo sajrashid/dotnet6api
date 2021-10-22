@@ -12,10 +12,7 @@ namespace MyAPI.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
-
         private readonly IAccountRepository repo;
-
-
         public AccountsController(IAccountRepository repo)
         {
             this.repo = repo;
@@ -44,7 +41,6 @@ namespace MyAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> Post(Auth auth)
         {
-
             var existingUser = await repo.GetUserByEmail(auth.Email).ConfigureAwait(false);
 
             if (existingUser is null)
@@ -56,7 +52,6 @@ namespace MyAPI.Controllers
 
                 await repo.CreateUser(salt, hashed, auth.Email).ConfigureAwait(false);
                 return Ok("Account Created, Please Login.");
-
             }
 
             return Conflict("Account already Exists.");
@@ -68,7 +63,5 @@ namespace MyAPI.Controllers
             await repo.DeleteUser(id).ConfigureAwait(false);
             return Ok(id);
         }
-
     }
-
 }
