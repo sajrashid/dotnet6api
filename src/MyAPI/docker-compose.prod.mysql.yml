@@ -28,6 +28,6 @@ services:
     #Specify Environment Variables for mysql
     environment:
       MYSQL_ROOT_PASSWORD:
-      MYSQL_USER: 
-      MYSQL_PASSWORD: 
-      MYSQL_DATABASE: 
+      MYSQL_USER:
+      MYSQL_PASSWORD:
+      MYSQL_DATABASE:
