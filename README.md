@@ -1,6 +1,7 @@
 # DotNet 6 Demo API
 
-Demo APi built with Docker-Compose, user Nginx as a reverse proxy, setup with let's encrypt ssl
+Demo APi built with Docker-Compose, user Nginx as a reverse proxy, setup with let's encrypt ssl.
+CI-CD, runs tests, replaces secrets, connection strings etc. securely deploys to a linux vm using SSH
 
 TLDR; to run in dev `docker-compose -f docker-compose.dev.yml up`.
 
