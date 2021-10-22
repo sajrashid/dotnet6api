@@ -57,8 +57,9 @@ jobs:
           services.database.environment.MYSQL_USER: ${{ secrets.MYSQL_USER }}
           services.database.environment.MYSQL_DATABASE:  ${{ secrets.MYSQL_DATABASE }}
 
-      - name: scp files
-        uses: garygrossgarten/github-action-scp@release
+      - name: Copy files
+        # Reference a specific commit on action
+        uses: garygrossgarten/github-action-scp@dba89d858413133b6e35da91a3c989cc8cde3ad4
         with:
           local: src
           remote: scp/
@@ -66,8 +67,8 @@ jobs:
           username: ${{ secrets.USERNAME}}
           privateKey: ${{ secrets.PRIVATE_KEY}}
 
-      - name: run docker-compose via SSH
-        uses: garygrossgarten/github-action-ssh@release
+      - name: Run docker-compose via SSH
+        uses: garygrossgarten/github-action-ssh@2b10f41b5a33808f6d24eafd253296766308b7c4
         with:
           command: |
                 cd scp/MyAPI
