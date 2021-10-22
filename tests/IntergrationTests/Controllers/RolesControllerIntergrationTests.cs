@@ -1,5 +1,4 @@
-﻿
-using FluentAssertions;
+﻿using FluentAssertions;
 
 using Microsoft.AspNetCore.Mvc.Testing;
 
@@ -32,10 +31,7 @@ namespace TestProject.IntergrationTests.Controllers
             testData = new TestData();
             // delete data & recreate new for every test run
             testData.DeleteUserAndRoles();
-
         }
-
-        // Tests will execute in sequence as they are in the same test class 
 
         [Fact]
         public async Task Get_All_Roles_Returns_ListOfRoles_OK()
@@ -151,5 +147,3 @@ namespace TestProject.IntergrationTests.Controllers
         }
     }
 }
-
-
