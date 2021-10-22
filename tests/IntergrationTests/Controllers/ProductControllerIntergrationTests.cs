@@ -21,7 +21,6 @@ namespace TestProject.IntergrationTests.Controllers
     {
         private readonly HttpClient _client;
         private readonly CustomWebApplicationFactory<Program> _factory;
-
         public ProductControllerIntergrationTests(CustomWebApplicationFactory<Program> factory)
         {
             _factory = factory;
