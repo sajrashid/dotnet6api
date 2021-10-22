@@ -10,7 +10,6 @@ namespace MyAPI.Controllers
     public class RolesController : ControllerBase
     {
         private readonly IRolesRepository repo;
-
         public RolesController(IRolesRepository repo)
         {
             this.repo = repo;
@@ -21,8 +20,6 @@ namespace MyAPI.Controllers
         {
             var Roles = await repo.GetAllRoles().ConfigureAwait(false);
             return Ok(Roles);
-
-
         }
 
         [HttpGet("{id}")]
@@ -40,19 +37,15 @@ namespace MyAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<int>> Delete(int id)
         {
-
             await repo.DeleteRoles(id).ConfigureAwait(false);
             return Ok(id);
-
         }
 
         [HttpPost]
         public async Task<ActionResult<Roles>> Post([FromBody] Roles roles)
         {
             var createdRole = await repo.InsertRoles(roles).ConfigureAwait(false);
-
             return StatusCode(201, createdRole);
-
         }
 
         [HttpPut("{id}")]
@@ -65,7 +58,6 @@ namespace MyAPI.Controllers
                 return NotFound();  // return 404        
             }
             return Ok(roles);
-
         }
     }
 }

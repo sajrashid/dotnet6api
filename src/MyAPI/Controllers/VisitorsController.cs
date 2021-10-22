@@ -20,7 +20,6 @@ namespace MyAPI.Controllers
     {
         private readonly ILogger<VisitorsController> _logger;
         private readonly IVisitorRepository repo;
-
         public VisitorsController(IVisitorRepository repo, ILogger<VisitorsController> logger)
         {
             this.repo = repo;
@@ -29,12 +28,9 @@ namespace MyAPI.Controllers
 
         private async Task<Visitor> DoesVistorExist(string hash)
         {
-            var loggerFactory = LoggerFactory.Create(builder =>
-            {
-                builder.AddConsole();
-            });
-
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
             ILogger logger = loggerFactory.CreateLogger<VisitorsController>();
+
             logger.LogInformation("DoesUserExist");
 
             return await repo.GetVisitor(hash).ConfigureAwait(false);
@@ -44,10 +40,7 @@ namespace MyAPI.Controllers
         [HttpGet("WhoIs")]
         public async Task<ActionResult> WhoIs()
         {
-            var loggerFactory = LoggerFactory.Create(builder =>
-            {
-                builder.AddConsole();
-            });
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
 
             ILogger logger = loggerFactory.CreateLogger<VisitorsController>();
             logger.LogInformation("USer COntroller Getimg");
@@ -98,7 +91,6 @@ namespace MyAPI.Controllers
         {
             await repo.DeleteVisitorById(id).ConfigureAwait(false);
             return Ok(id);
-
         }
     }
 }
