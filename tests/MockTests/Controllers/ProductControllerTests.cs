@@ -167,7 +167,7 @@ namespace TestProject.MockTests.Controllers
             };
 
             // Arrange
-            A.CallTo(() => fakeProductRepository.UpdateProduct(1,productToUpDate)).Returns(1);
+            A.CallTo(() => fakeProductRepository.UpdateProduct(1, productToUpDate)).Returns(1);
 
             var productController = CreateProductController();
             // Act
@@ -203,7 +203,7 @@ namespace TestProject.MockTests.Controllers
             };
 
             // Arrange
-            A.CallTo(() => fakeProductRepository.UpdateProduct(1001,productToInsert)).Returns(1);
+            A.CallTo(() => fakeProductRepository.UpdateProduct(1001, productToInsert)).Returns(1);
 
             var productController = CreateProductController();
             // Act

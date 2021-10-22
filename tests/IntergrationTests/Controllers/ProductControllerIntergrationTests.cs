@@ -130,7 +130,7 @@ namespace TestProject.IntergrationTests.Controllers
             newproduct.Company.Should().Be("XYZ CO");
             newproduct.StockCount.Should().Be(5);
 
-            product = new Product {Id=  newproduct.Id, Company = "Test CO", Phone = "11X-221-333-444", Price = 35, InStock = false, StockCount = 5, NewStockDate = DateTime.Now, };
+            product = new Product { Id = newproduct.Id, Company = "Test CO", Phone = "11X-221-333-444", Price = 35, InStock = false, StockCount = 5, NewStockDate = DateTime.Now, };
             json = JsonSerializer.Serialize<Product>(product);
             data = new StringContent(json, Encoding.UTF8, "application/json");
             response = await _client.PutAsync($"/api/Products/{newproduct.Id}", data).ConfigureAwait(false);
@@ -149,7 +149,7 @@ namespace TestProject.IntergrationTests.Controllers
         public async Task Update_Non_Exisiting_Product_Returns_NotFound()
         {
             // create a new product
-            var product = new Product {Id=101010, Company = "ABC CO", Phone = "111-222-333-444", Price = 55, InStock = true, StockCount = 5, NewStockDate = DateTime.Now, };
+            var product = new Product { Id = 101010, Company = "ABC CO", Phone = "111-222-333-444", Price = 55, InStock = true, StockCount = 5, NewStockDate = DateTime.Now, };
             var json = JsonSerializer.Serialize<Product>(product);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PutAsync($"/api/Products/{product.Id}", data).ConfigureAwait(false);

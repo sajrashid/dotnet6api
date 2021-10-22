@@ -5,9 +5,6 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 using MyAPI.Models;
 
-using Org.BouncyCastle.Ocsp;
-
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -35,14 +32,14 @@ namespace TestProject.IntergrationTests.Controllers
             testData = new TestData();
             // delete data & recreate new for every test run
             testData.DeleteUserAndRoles();
-        
+
         }
 
         // Tests will execute in sequence as they are in the same test class 
 
         [Fact]
         public async Task Get_All_Roles_Returns_ListOfRoles_OK()
-{
+        {
             testData.CreateUserAndRoles();
             var response = await _client.GetAsync("/api/Roles/");
             response.EnsureSuccessStatusCode();
@@ -84,7 +81,7 @@ namespace TestProject.IntergrationTests.Controllers
             // create a new user
             testData.CreateUserAndRoles();
             // Create_New_Roles
-            var role = new Roles { Role="Admin", UserId=1 };
+            var role = new Roles { Role = "Admin", UserId = 1 };
             var json = JsonSerializer.Serialize<Roles>(role);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -116,7 +113,7 @@ namespace TestProject.IntergrationTests.Controllers
                 PropertyNameCaseInsensitive = true
             };
 
-            var roles = new Roles { Id= 1, UserId = 1, Role = "Dev" };
+            var roles = new Roles { Id = 1, UserId = 1, Role = "Dev" };
             var json = JsonSerializer.Serialize<Roles>(roles);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -137,7 +134,7 @@ namespace TestProject.IntergrationTests.Controllers
         public async Task Update_Non_Exisiting_Roles_Returns_NotFound()
         {
             // create a new role
-            var roles = new Roles { Id=101010, Role = "abcrole",  UserId=1 };
+            var roles = new Roles { Id = 101010, Role = "abcrole", UserId = 1 };
             var json = JsonSerializer.Serialize<Roles>(roles);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PutAsync($"/api/Roles/{roles.Id}", data).ConfigureAwait(false);
