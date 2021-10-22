@@ -26,12 +26,10 @@ namespace TestProject.UnitTests.Services
     /// </summary>
     public class TokenServiceUnitTest
     {
-
         private readonly IConfiguration config;
 
         public TokenServiceUnitTest()
         {
-
             var builder = WebApplication.CreateBuilder();
             config = builder.Configuration;
             builder.Build();
@@ -94,7 +92,6 @@ namespace TestProject.UnitTests.Services
             //};
 
             //claimsInToken.Should().BeEquivalentTo(claimsList);
-
         }
     }
 }
