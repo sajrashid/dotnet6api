@@ -43,7 +43,7 @@ namespace TestProject.IntergrationTests.Controllers
         [Fact]
         public async Task Create_And_GetUserAccount_Returns_String_OK()
         {
-            var token = _tokenFixture.GetToken();
+            var token = TokenFixture.GetToken();
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             // Arrange
@@ -72,7 +72,7 @@ namespace TestProject.IntergrationTests.Controllers
         [Fact]
         public async Task Create_Exisiting_Account_Returns_Conflict()
         {
-            var token = _tokenFixture.GetToken();
+            var token = TokenFixture.GetToken();
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -97,7 +97,7 @@ namespace TestProject.IntergrationTests.Controllers
         [Fact]
         public async Task Delete_Existiting_Account_Returns_OK()
         {
-            var token = _tokenFixture.GetToken();
+            var token = TokenFixture.GetToken();
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             // Arrange
@@ -116,7 +116,7 @@ namespace TestProject.IntergrationTests.Controllers
         [Fact]
         public async Task Get_Non_Existiting_Account_Returns_Mot_Found()
         {
-            var token = _tokenFixture.GetToken();
+            var token = TokenFixture.GetToken();
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var response = await _client.GetAsync("/api/accounts/1001");
@@ -126,7 +126,7 @@ namespace TestProject.IntergrationTests.Controllers
         [Fact]
         public async Task Post_Bad_Password_Returns_BadRequest()
         {
-            var token = _tokenFixture.GetToken();
+            var token = TokenFixture.GetToken();
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -154,7 +154,7 @@ namespace TestProject.IntergrationTests.Controllers
         {
             testData.CreateListTestUsers();
 
-            var token = _tokenFixture.GetToken();
+            var token = TokenFixture.GetToken();
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 

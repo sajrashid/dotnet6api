@@ -35,7 +35,7 @@ namespace TestProject.IntergrationTests.Controllers
             testData = new TestData();
             // delete data & recreate new for every test run
             testData.DeleteVisitors();
-            var token = _tokenFixture.GetToken();
+            var token = TokenFixture.GetToken();
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
@@ -74,7 +74,7 @@ namespace TestProject.IntergrationTests.Controllers
         [Fact]
         public async Task Update_Visitor_Returns_Single_Visitor_OK()
         {
-            var token = _tokenFixture.GetToken();
+            var token = TokenFixture.GetToken();
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             //Arrange 

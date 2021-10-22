@@ -213,7 +213,7 @@ namespace TestProject.IntergrationTests.Controllers
         [Fact]
         public async Task Get_Users_Returns_ListOfUsers_OK()
         {
-            var token = _tokenFixture.GetToken();
+            var token = TokenFixture.GetToken();
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var response = await _client.GetAsync("/api/login/");

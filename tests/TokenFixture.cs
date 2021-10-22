@@ -1,18 +1,15 @@
 ﻿using Microsoft.AspNetCore.Builder;
-
 using MyAPI.Services;
-
 using System.Collections.Generic;
-
 using Xunit;
 
 namespace TestProject
 {
     [CollectionDefinition(name: "TokenGenerator")]
     public class TokenGeneratorDefinition : ICollectionFixture<TokenFixture> { }
-    public class TokenFixture
+    public static class TokenFixture
     {
-        public string GetToken()
+        public static string GetToken()
         {
             var builder = WebApplication.CreateBuilder();
             var config = builder.Configuration;
@@ -26,7 +23,6 @@ namespace TestProject
             };
 
             return tokenSvc.CreateToken(roles);
-
         }
     }
 }
