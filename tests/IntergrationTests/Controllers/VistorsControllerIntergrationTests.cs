@@ -1,5 +1,4 @@
-﻿
-using FluentAssertions;
+﻿using FluentAssertions;
 
 using Microsoft.AspNetCore.Mvc.Testing;
 
@@ -70,7 +69,6 @@ namespace TestProject.IntergrationTests.Controllers
             var visitorList = JsonSerializer.Deserialize<List<Visitor>>(res, options);
             visitorList.Should().HaveCount(1);
             visitorList.Should().BeOfType<List<Visitor>>();
-
         }
 
         [Fact]
@@ -101,8 +99,6 @@ namespace TestProject.IntergrationTests.Controllers
             upatedvisitor.Should().BeOfType<Visitor>();
             upatedvisitor.Hash.Should().Be("xyz");
         }
-
     }
 }
-
 
