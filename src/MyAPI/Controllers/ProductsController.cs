@@ -34,7 +34,6 @@ namespace MyAPI.Controllers
             return Ok(product);
         }
 
-
         [HttpDelete("{id}")]
         // DELETE api/<ValuesController>/5
         public async Task<ActionResult<int>> Delete(int id)
@@ -62,7 +61,6 @@ namespace MyAPI.Controllers
                 return NotFound();  // return 404        
             }
             return Ok(product);
-
         }
     }
 }
