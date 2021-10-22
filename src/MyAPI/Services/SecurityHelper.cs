@@ -9,7 +9,6 @@ namespace MyAPI.Services
     {
         public static string CreateMD5Hash(string input)
         {
-
             MD5 md5 = MD5.Create();
             byte[] inputBytes = Encoding.ASCII.GetBytes(input);
             byte[] hashBytes = md5.ComputeHash(inputBytes);
@@ -31,11 +30,9 @@ namespace MyAPI.Services
                 rng.GetBytes(salt);
             }
             return salt;
-
         }
         public static string GenerateHash(byte[] salt, string password)
         {
-
             // derive a 256-bit subkey (use HMACSHA1 with 10,000 iterations)
             string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                 password: password,
@@ -45,9 +42,6 @@ namespace MyAPI.Services
                 numBytesRequested: 256 / 8));
 
             return hashed;
-
         }
     }
 }
-
-
