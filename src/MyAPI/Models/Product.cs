@@ -9,6 +9,5 @@ namespace MyAPI.Models
         public bool InStock { get; set; }
         public int StockCount { get; set; }
         public DateTime NewStockDate { get; set; }
-
     }
 }
