@@ -1,58 +1,80 @@
-# DocsAPI
+# DotNet 6 Demo API
 
-## Instructions
-apt-get update
-followed by
-apt-get upgrade
-###install Git Client
+Demo APi built with Docker-Compose, user Nginx as a reverse proxy, setup with let's encrypt ssl
 
-sudo apt install git docker-ce docker-compose
+TLDR; to run in dev `docker-compose -f docker-compose.dev.yml up`.
 
-git clone 
+## Asp.net 6
 
-git clone https://github.com/sajrashid/DocsAPI/
+Latest release candiate , note: no minimal api's
 
-### first build
+### Xunit
 
-docker-compose -f docker-compose.dev.yml up
+Lot's of tests, over 95% coverage
 
-### subsequent
-docker-compose up --build
+### Docker-compose
+
+Prod is hosted with MySQL DB running on a separate box, see the mysql docker-compose file
+
+### Nginx Revese proxy
+
+Copies the SSL certificates into the docker container see nginx docker file
+
+### Dapper Micro ORM
+
+Ultra lightweight, the API consumes about 130mb of memory
+
+### MySql
+
+MySql Running in docker, great and not great.
+
+### JWT Bearer Authentication
+Standard roles based
 
 
-### to login start container
+### Server-Setup
+`apt-get update`
+`apt-get upgrade`
 
-docker exec -it docsapi_database_1 /bin/bash
+**install Git Client**
 
-### then
+**install Docker**
+`sudo apt install git docker-ce docker-compose`
+
+### General How to's
+
+**To start container shell**
+
+`docker exec -it containername /bin/bash`
+
+**then**
 
 cd to sql folder usr/bin
 
-mysql -u root -p At the Enter password: prompt, well, enter root's password
+`mysql -u root -p At the Enter password: prompt, well, enter root's password`
 
- mysql --user="root" --database="Userssdb" --password="root" < "sql-scripts"
+**Manualy run sql scripts**
 
- or
+ `mysql --user="root" --database="Userssdb" --password="root" < "sql-scripts"`
+*Or*
+ `mysql --user="root" --database="somedb" --password="root" -e "DROP TABLE somedb.Users;"`
 
- mysql --user="root" --database="somedb" --password="root" -e "DROP TABLE somedb.Users;"
+**Zap all conatiners**
+ `docker stop $(docker ps -a -q) `
+ `docker rm $(docker ps -a -q) `
 
-mysql --user="root" --database="somedb" --password="root" -e "CREATE TABLE somedb.Users (Id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, UserAgent VARCHAR(256) NOT NULL,IP VARCHAR(30) NOT NULL,CanvasId VARCHAR(8),LastVisit DATETIME, Count INT);"
+### LetsencrypT SSL
 
-Api End Point
-http://109.74.203.6:5000/swagger/index.html
+  `git clone https://github.com/lukas2511/dehydrated.git `
+  
+`~$ git clone https://github.com/jbjonesjr/letsencrypt-manual-hook.git dehydrated/hooks/manual`
+`~$ cd dehydrated`
+`~$ ./dehydrated --register --accept-terms`
+`~$ ./dehydrated --cron --challenge dns-01 --domain your.domain.com --hook ./hooks/manual/manual_hook.rb`
+**outputs**
 
+*!! WARNING !! No main config file found, using default config!
 
-
-# letencryp SSL
-
- git clone https://github.com/lukas2511/dehydrated.git
-~$ git clone https://github.com/jbjonesjr/letsencrypt-manual-hook.git dehydrated/hooks/manual
-~$ cd dehydrated
-~$ ./dehydrated --register --accept-terms
-~$ ./dehydrated --cron --challenge dns-01 --domain your.domain.com --hook ./hooks/manual/manual_hook.rb
-#
-# !! WARNING !! No main config file found, using default config!
-#
 Processing your.domain.com
  + Signing domains...
  + Creating new directory /Users/vikas/dehydrated/certs/your.domain.com ...
@@ -68,15 +90,16 @@ Create TXT record for the domain: '_acme-challenge.your.domain.com'. TXT record:
 Press enter when DNS has been updated...
 You will get a hash (after running the above command), create a TXT record in your DNS. Make sure it works by either running the below command or GSuite Toolbox
 
-~$ dig TXT _acme-challenge.your.domain.com. +short @8.8.8.8
-"gkIxxxxxxxIcAESmjF8pjZGQrrZxxxxxxxxxxx"
-~$
-Now, press enter at the prompt. This did not work for me although the TXT record was updated. I had to press Ctrl+C and run the command again.
+`~$ dig TXT _acme-challenge.your.domain.com. +short @8.8.8.8`
+`"gkIxxxxxxxIcAESmjF8pjZGQrrZxxxxxxxxxxx"`
+`~$`
+*Now, press enter at the prompt. you may have to press Ctrl+C and run the command again.*
 
-~$ ./dehydrated --cron --challenge dns-01 --domain your.domain.com --hook ./hooks/manual/manual_hook.rb
-#
-# !! WARNING !! No main config file found, using default config!
-#
+`~$ ./dehydrated --cron --challenge dns-01 --domain your.domain.com --hook ./hooks/manual/manual_hook.rb`
+
+
+ *!! WARNING !! No main config file found, using default config!*
+
 Processing your.domain.com
  + Signing domains...
  + Generating private key...
@@ -95,38 +118,26 @@ Challenge complete. Leave TXT record in place to allow easier future refreshes.
  + Creating fullchain.pem... 
  + Walking chain...
  + Done!
-~$
+
 Now, your public and private certs are present here.
 
-$ ls certs/your.domain.com/privkey.pem certs/your.domain.com/fullchain-1517576424.pem
+`$ ls certs/your.domain.com/privkey.pem certs/your.domain.com/fullchain-1517576424.pem`
 To renew (minimum wait time is 30 days), just the same command again.
 
-~$ ./dehydrated --cron --challenge dns-01 --domain your.domain.com --hook ./hooks/manua
+`~$ ./dehydrated --cron --challenge dns-01 --domain your.domain.com --hook ./hooks/manua`
 
-create pfx file from cert
+### Create pfx file from cert
 
-# openssl pkcs12 -export -out certificate.pfx -inkey privkey.pem -in cert.pem -certfile chain.pem
+`openssl pkcs12 -export -out certificate.pfx -inkey privkey.pem -in cert.pem -certfile chain.pem`
 
 create crt file from cert.pem and copy to /usr/local/share/ca-certificates, cp cert.pem to cert.crt
 
 then add to server certificate store
 
-sudo update-ca-certificates
+`sudo update-ca-certificates`
 
-you should entry 1 added
-
-
-backup
-https://www.tecmint.com/manage-etc-with-version-control-using-etckeeper/
-sudo apt-get install etckeeper
+you should see entry 1 added
 
 
-promtail
-
-sudo promtail -config.file ./config-promtail.yml
 
 
-git clone 
-
-docker stop $(docker ps -a -q)
-docker rm $(docker ps -a -q)
