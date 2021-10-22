@@ -10,7 +10,6 @@ namespace MyAPI.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductRepository repo;
-
         public ProductsController(IProductRepository repo)
         {
             this.repo = repo;
@@ -21,8 +20,6 @@ namespace MyAPI.Controllers
         {
             var products = await repo.GetAllProducts().ConfigureAwait(false);
             return Ok(products);
-
-
         }
 
         // GET api/<ValuesController>/5
@@ -42,10 +39,8 @@ namespace MyAPI.Controllers
         // DELETE api/<ValuesController>/5
         public async Task<ActionResult<int>> Delete(int id)
         {
-
             await repo.DeleteProduct(id).ConfigureAwait(false);
             return Ok(id);
-
         }
 
         // POST api/<ValuesController>
@@ -53,9 +48,7 @@ namespace MyAPI.Controllers
         public async Task<ActionResult<Product>> Post([FromBody] Product product)
         {
             var createdProduct = await repo.InsertProduct(product).ConfigureAwait(false);
-
             return StatusCode(201, createdProduct);
-
         }
 
         // PUT api/<ValuesController>/5
