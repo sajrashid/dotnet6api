@@ -26,7 +26,6 @@ namespace MyAPI.Repository
                 var parameters = new DynamicParameters(dictionary);
                 const string? sql = "SELECT * FROM Users WHERE email = @email";
                 return await _conn.QueryFirstOrDefaultAsync<User>(sql, parameters).ConfigureAwait(false);
-
             }
         }
 
@@ -38,7 +37,6 @@ namespace MyAPI.Repository
                 Salt = salt,
                 Hash = hash,
                 LastVisit = DateTime.Now
-
             };
 
             const string? sql = "Insert INTO Users SET Email = @email,Salt = @salt, Hash = @hash, LastVisit = @lastVisit;";
@@ -47,7 +45,6 @@ namespace MyAPI.Repository
                 return await _conn.QueryFirstOrDefaultAsync<User>(sql, user).ConfigureAwait(false);
             }
         }
-
 
         public Task<bool> ResetPassword(string email)
         {

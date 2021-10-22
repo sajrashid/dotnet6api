@@ -1,4 +1,3 @@
-
 namespace MyAPI.Models
 {
     public class Visitor
@@ -10,5 +9,4 @@ namespace MyAPI.Models
         public DateTime LastVisit { get; set; }
         public int Count { get; set; }
     }
-
 }

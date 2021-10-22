@@ -17,7 +17,6 @@ namespace MyAPI.Controllers
         private readonly ILoginRepository repo;
         private readonly IConfiguration _config;
         private readonly ITokenService _tokenService;
-
         public LoginController(ILoginRepository repo, IConfiguration config, ITokenService tokenService)
         {
             this.repo = repo;
@@ -30,7 +29,6 @@ namespace MyAPI.Controllers
             var users = await repo.GetAllUsers().ConfigureAwait(false);
             return Ok(users);
         }
-
 
         [HttpPost("")]
         [AllowAnonymous]
@@ -66,7 +64,6 @@ namespace MyAPI.Controllers
             // erm nope
             return StatusCode(403, "Login failed check your Email or Password");
         }
-
         private static string getHash(Auth auth, byte[]? salt)
         {
             // derive a 256-bit subkey (use HMACSHA1 with 10,000 iterations)
