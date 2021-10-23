@@ -44,7 +44,7 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal
 
-      - name: variable substitution in json yaml
+      - name: Substitue variables in appsetting.json & docker files 
         uses: microsoft/variable-substitution@v1
         with:
          files: './src/MyAPI/appsettings.json, ./src/MyAPI/docker-compose.prod.mysql.yml'
@@ -56,7 +56,6 @@ jobs:
           services.database.environment.MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
           services.database.environment.MYSQL_USER: ${{ secrets.MYSQL_USER }}
           services.database.environment.MYSQL_DATABASE:  ${{ secrets.MYSQL_DATABASE }}
-
 
       - name: Rsync - copy/update files
         uses: up9cloud/action-rsync@v1.1
@@ -77,6 +76,32 @@ jobs:
               date -u --rfc-3339=ns
             POST_SCRIPT: "echo done at: && date -u --rfc-3339=ns"
 
+      - name: Run docker-compose via SSH
+        uses: garygrossgarten/github-action-ssh@2b10f41b5a33808f6d24eafd253296766308b7c4
+        with:
+          command: |
+                cd scp/MyAPI
+                docker-compose -f docker-compose.prod.yml up --build -d
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.USERNAME}}
+          privateKey: ${{ secrets.PRIVATE_KEY}}
+
+      - name: Post Deployment tests
+        run: |
+
+             CODE=`curl --write-out '%{http_code}' \
+                --silent \
+                --output /dev/null \
+                --request GET \
+                --header 'accept: text/plain' \
+                --url 'https://imgloader.co.uk/api/Products/1' \
+
+                if [ $CODE!="200" ] 
+                then
+                    echo "FAILURE"
+                else
+                    echo "SUCCESS"
+                fi
 
 
       #- name: Copy files
@@ -89,17 +114,5 @@ jobs:
       #    username: ${{ secrets.USERNAME}}
       #    privateKey: ${{ secrets.PRIVATE_KEY}}
 
-      - name: Run docker-compose via SSH
-        uses: garygrossgarten/github-action-ssh@2b10f41b5a33808f6d24eafd253296766308b7c4
-        with:
-          command: |
-                cd scp/MyAPI
-                docker-compose -f docker-compose.prod.yml up --build -d
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.USERNAME}}
-          privateKey: ${{ secrets.PRIVATE_KEY}}
-      - name: Post Deployment tests
-        run: |
-             curl 'https://imgloader.co.uk/swagger/index.html'
-             curl -X 'GET' 'https://imgloader.co.uk/api/Products/1' -H 'accept: text/plain'
+ 
 
