@@ -93,7 +93,6 @@ namespace TestProject.IntergrationTests.Controllers
 
             var newproduct = JsonSerializer.Deserialize<Product>(res, options);
 
-            // set new productid so we can reference in the delete test to run next
             // Assert
             newproduct.Should().NotBeNull();
             newproduct.Should().BeOfType<Product>();
