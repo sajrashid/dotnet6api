@@ -115,7 +115,7 @@ namespace TestProject.IntergrationTests.Controllers
         [Fact]
         public async Task Post_Bad_Password_Returns_BadRequest()
         {
-            Auth user = new Auth { Email = "testUser@test.com", Password = "" };
+            Auth user = new() { Email = "testUser@test.com", Password = "" };
 
             var json = JsonSerializer.Serialize<Auth>(user);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
