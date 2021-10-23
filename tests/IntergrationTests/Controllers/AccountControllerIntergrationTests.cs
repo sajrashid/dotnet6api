@@ -72,7 +72,7 @@ namespace TestProject.IntergrationTests.Controllers
         public async Task Create_Exisiting_Account_Returns_Conflict()
         {
             // Arrange
-            Auth user = new Auth { Email = "testUser@test.com", Password = "Password99" };
+            Auth user = new() { Email = "testUser@test.com", Password = "Password99" };
 
             var json = JsonSerializer.Serialize<Auth>(user);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -130,7 +130,7 @@ namespace TestProject.IntergrationTests.Controllers
 
             json = JsonSerializer.Serialize<Auth>(user2);
             data = new StringContent(json, Encoding.UTF8, "application/json");
-            response = await _client.PostAsync("/api/accounts/", data);
+            response = await _client.PostAsync("/api/accounts/", data).ConfigureAwait(false);
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
         }
 
