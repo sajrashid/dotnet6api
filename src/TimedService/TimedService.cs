@@ -15,7 +15,6 @@ namespace TimedService
         {
             _logger = logger;
         }
-
         public Task StartAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("Timed Hosted Service running.");
@@ -25,7 +24,6 @@ namespace TimedService
 
             return Task.CompletedTask;
         }
-
         private void DoWork(object state)
         {
             var count = Interlocked.Increment(ref executionCount);
@@ -33,7 +31,6 @@ namespace TimedService
             _logger.LogInformation(
                 "Timed Hosted Service is working. Count: {Count}", count);
         }
-
         public Task StopAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("Timed Hosted Service is stopping.");
@@ -42,7 +39,6 @@ namespace TimedService
 
             return Task.CompletedTask;
         }
-
         public void Dispose()
         {
             _timer?.Dispose();
