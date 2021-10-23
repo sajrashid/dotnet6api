@@ -86,21 +86,11 @@ jobs:
           username: ${{ secrets.USERNAME}}
           privateKey: ${{ secrets.PRIVATE_KEY}}
 
-      - name: Post Deployment tests
-        run: |
-             CODE=`curl --write-out '%{http_code}' \
-                --silent \
-                --output /dev/null \
-                --request GET \
-                --header 'accept: text/plain' \
-                --url 'https://imgloader.co.uk/api/Products/1' \
+      - name: curl
+        uses: wei/curl@v1
+        with:
+          args: -X GET https://imgloader.co.uk/api/Products/1
 
-                if [ $CODE!="200" ] 
-                then
-                    echo "FAILURE"
-                else
-                    echo "SUCCESS"
-                fi
 
 
       #- name: Copy files
