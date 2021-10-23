@@ -1,15 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using MyAPI.Models;
-using MyAPI.Repository;
+﻿// <copyright file="RolesController.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace MyAPI.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using MyAPI.Models;
+    using MyAPI.Repository;
+
     [ApiController]
     [Route("api/[controller]")]
     public class RolesController : ControllerBase
     {
         private readonly IRolesRepository repo;
+
         public RolesController(IRolesRepository repo)
         {
             this.repo = repo;
@@ -18,45 +22,48 @@ namespace MyAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Roles>>> Get()
         {
-            var Roles = await repo.GetAllRoles().ConfigureAwait(false);
-            return Ok(Roles);
+            var roles = await this.repo.GetAllRoles().ConfigureAwait(false);
+            return this.Ok(roles);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Roles>> Get(int id)
         {
-            var product = await repo.GetRoles(id).ConfigureAwait(false);
+            var product = await this.repo.GetRoles(id).ConfigureAwait(false);
             if (product is null)
             {
-                return NotFound();  // return 404
+                return this.NotFound();  // return 404
             }
-            return Ok(product);
+
+            return this.Ok(product);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<int>> Delete(int id)
         {
-            await repo.DeleteRoles(id).ConfigureAwait(false);
-            return Ok(id);
+            await this.repo.DeleteRoles(id).ConfigureAwait(false);
+            return this.Ok(id);
         }
 
         [HttpPost]
         public async Task<ActionResult<Roles>> Post([FromBody] Roles roles)
         {
-            var createdRole = await repo.InsertRoles(roles).ConfigureAwait(false);
-            return StatusCode(201, createdRole);
+            var createdRole = await this.repo.InsertRoles(roles).ConfigureAwait(false);
+            return this.StatusCode(201, createdRole);
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<int>> Put(int id, [FromBody] Roles roles)
         {
-            var rowsAffected = await repo.UpdateRoles(id, roles);
+            var rowsAffected = await this.repo.UpdateRoles(id, roles);
+
             // check if product collection is not empty
             if (rowsAffected == 0)
             {
-                return NotFound();  // return 404        
+                return this.NotFound();
             }
-            return Ok(roles);
+
+            return this.Ok(roles);
         }
     }
 }

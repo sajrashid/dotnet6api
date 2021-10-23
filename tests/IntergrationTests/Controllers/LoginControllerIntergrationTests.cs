@@ -17,21 +17,19 @@ using Xunit;
 namespace TestProject.IntergrationTests.Controllers
 {
     [Collection("Login Collection")]
-    public class LoginControllerIntergrationTests : IClassFixture<CustomWebApplicationFactory<Program>>, IClassFixture<TokenFixture>
+    public class LoginControllerIntergrationTests : IClassFixture<CustomWebApplicationFactory<Program>>
     {
         private readonly HttpClient _client;
         private readonly CustomWebApplicationFactory<Program> _factory;
-        private readonly TokenFixture _tokenFixture;
         readonly TestData testData;
         public LoginControllerIntergrationTests(
-        CustomWebApplicationFactory<Program> factory, TokenFixture tokenFixture)
+        CustomWebApplicationFactory<Program> factory)
         {
             _factory = factory;
             _client = factory.CreateClient(new WebApplicationFactoryClientOptions
             {
                 AllowAutoRedirect = false
             });
-            _tokenFixture = tokenFixture;
             testData = new TestData();
             //  delete users 
             testData.DeleteAccounts();

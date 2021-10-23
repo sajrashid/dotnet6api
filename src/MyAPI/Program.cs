@@ -1,16 +1,16 @@
-
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.IdentityModel.Tokens;
-
-using MyAPI;
-using MyAPI.Repository;
-using MyAPI.Services;
-
-using MySql.Data.MySqlClient;
+// <copyright file="Program.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 using System.Data;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.IdentityModel.Tokens;
+using MyAPI;
+using MyAPI.Repository;
+using MyAPI.Services;
+using MySql.Data.MySqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -23,7 +23,7 @@ builder.Services.AddTransient<IDbConnection>((_) =>
     conn.Open();
     return conn;
 });
-// Add services
+
 builder.Services.AddSingleton<ITokenService, TokenService>();
 
 // Add repositories
@@ -47,7 +47,6 @@ builder.Services.AddAuthentication(a =>
 {
     a.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     a.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
 })
 .AddJwtBearer(j =>
 {
@@ -57,18 +56,18 @@ builder.Services.AddAuthentication(a =>
         ValidateAudience = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"])),
     };
 });
-// add authentication
 
+// add authentication
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-
 }
+
 app.UseStaticFiles();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
@@ -77,11 +76,10 @@ app.UseSwaggerUI(c =>
     c.InjectStylesheet("/css/SwaggerDark.css");
 });
 
-
 // required for NGINX reverse proxy
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
-    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
 });
 
 app.UseAuthentication();
@@ -92,5 +90,7 @@ app.MapControllers();
 app.Run();
 
 #pragma warning disable CA1050 // Declare types in namespaces
-public partial class Program { }
+public partial class Program
+{
+}
 #pragma warning restore CA1050 // Declare types in namespaces

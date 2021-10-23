@@ -17,20 +17,18 @@ using Xunit;
 
 namespace TestProject.IntergrationTests.Controllers
 {
-    public class VistorsControllerIntergrationTests : IClassFixture<CustomWebApplicationFactory<Program>>, IClassFixture<TokenFixture>
+    public class VistorsControllerIntergrationTests : IClassFixture<CustomWebApplicationFactory<Program>>
     {
         private readonly HttpClient _client;
         private readonly CustomWebApplicationFactory<Program> _factory;
-        private readonly TokenFixture _tokenFixture;
         readonly TestData testData;
-        public VistorsControllerIntergrationTests(CustomWebApplicationFactory<Program> factory, TokenFixture tokenFixture)
+        public VistorsControllerIntergrationTests(CustomWebApplicationFactory<Program> factory)
         {
             _factory = factory;
             _client = factory.CreateClient(new WebApplicationFactoryClientOptions
             {
                 AllowAutoRedirect = false
             });
-            _tokenFixture = tokenFixture;
 
             testData = new TestData();
             // delete data & recreate new for every test run

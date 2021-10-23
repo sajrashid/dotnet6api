@@ -1,25 +1,27 @@
-﻿using Dapper;
-
-using MyAPI.Models;
-
-using System.Data;
+﻿// <copyright file="RolesRepository.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace MyAPI.Repository
 {
+    using System.Data;
+    using Dapper;
+    using MyAPI.Models;
+
     public class RolesRepository : IRolesRepository
     {
-        private readonly IDbConnection _conn;
+        private readonly IDbConnection conn;
 
         public RolesRepository(IDbConnection conn)
         {
-            _conn = conn;
+            this.conn = conn;
         }
 
         public async Task<IEnumerable<Roles>> GetAllRoles()
         {
-            using (_conn)
+            using (this.conn)
             {
-                return await _conn.QueryAsync<Roles>("SELECT * FROM Roles;").ConfigureAwait(false);
+                return await this.conn.QueryAsync<Roles>("SELECT * FROM Roles;").ConfigureAwait(false);
             }
         }
 
@@ -27,30 +29,30 @@ namespace MyAPI.Repository
         {
             var dictionary = new Dictionary<string, object>
             {
-                { "@id", id }
+                { "@id", id },
             };
 
-            using (_conn)
+            using (this.conn)
             {
                 var parameters = new DynamicParameters(dictionary);
                 const string? sql = "SELECT * FROM Roles WHERE id = @id";
-                return await _conn.QueryFirstOrDefaultAsync<Roles>(sql, parameters).ConfigureAwait(false);
+                return await this.conn.QueryFirstOrDefaultAsync<Roles>(sql, parameters).ConfigureAwait(false);
             }
-
         }
-        public async Task<int> DeleteRoles(int Id)
+
+        public async Task<int> DeleteRoles(int id)
         {
             var dictionary = new Dictionary<string, object>
             {
-                { "@id",Id }
+                { "@id", id },
             };
             var parameters = new DynamicParameters(dictionary);
             const string? sql = "Delete FROM Roles WHERE id = @id";
 
-            using (_conn)
+            using (this.conn)
             {
-                await _conn.QueryFirstOrDefaultAsync<Roles>(sql, parameters).ConfigureAwait(false);
-                return Id;
+                await this.conn.QueryFirstOrDefaultAsync<Roles>(sql, parameters).ConfigureAwait(false);
+                return id;
             }
         }
 
@@ -58,9 +60,9 @@ namespace MyAPI.Repository
         {
             var parameters = role;
             const string? sql = "UPDATE Roles SET Role = @role,UserId =@userid WHERE id =@Id;";
-            using (_conn)
+            using (this.conn)
             {
-                return await _conn.ExecuteAsync(sql, parameters).ConfigureAwait(false);
+                return await this.conn.ExecuteAsync(sql, parameters).ConfigureAwait(false);
             }
         }
 
@@ -68,10 +70,9 @@ namespace MyAPI.Repository
         {
             var parameters = role;
             const string? sql = "Insert INTO Roles SET Role = @role,UserId =@userid; select LAST_INSERT_ID();";
-            using (_conn)
+            using (this.conn)
             {
-
-                role.Id = await _conn.ExecuteScalarAsync<int>(sql, parameters).ConfigureAwait(false);
+                role.Id = await this.conn.ExecuteScalarAsync<int>(sql, parameters).ConfigureAwait(false);
                 return role;
             }
         }

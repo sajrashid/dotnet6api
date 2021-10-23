@@ -1,20 +1,25 @@
-﻿using Microsoft.OpenApi.Models;
+﻿// <copyright file="SwaggerConfig.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace MyAPI
 {
+    using Microsoft.OpenApi.Models;
+
     public static class SwaggerConfig
     {
         public static WebApplicationBuilder CreateSwaggerConfig(WebApplicationBuilder builder)
         {
             builder.Services.AddSwaggerGen(swagger =>
             {
-                //This is to generate the Default UI of Swagger Documentation
+                // This is to generate the Default UI of Swagger Documentation
                 swagger.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
                     Title = "JWT Token Authentication API",
-                    Description = "API"
+                    Description = "API",
                 });
+
                 // To Enable authorization using Swagger (JWT)
                 swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
@@ -33,12 +38,12 @@ namespace MyAPI
                                     Reference = new OpenApiReference
                                 {
                                     Type = ReferenceType.SecurityScheme,
-                                    Id = "Bearer"
-                                }
+                                    Id = "Bearer",
+                                },
                             },
                             Array.Empty<string>()
-                    }
-                });
+                    },
+               });
             });
             return builder;
         }

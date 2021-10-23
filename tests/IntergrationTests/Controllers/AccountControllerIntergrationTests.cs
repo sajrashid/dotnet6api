@@ -16,36 +16,37 @@ using Xunit;
 namespace TestProject.IntergrationTests.Controllers
 {
     [Collection("Account Collection")]
-    public class AccountControllerIntergrationTests : IClassFixture<CustomWebApplicationFactory<Program>>, IClassFixture<TokenFixture>
+    public class AccountControllerIntergrationTests : IClassFixture<CustomWebApplicationFactory<Program>>
     {
-
         private readonly HttpClient _client;
 
         private readonly CustomWebApplicationFactory<Program> _factory;
 
-        private readonly TokenFixture _tokenFixture;
+
         private readonly TestData testData;
+        private readonly string token;
         public AccountControllerIntergrationTests(
-        CustomWebApplicationFactory<Program> factory, TokenFixture tokenFixture)
+        CustomWebApplicationFactory<Program> factory)
         {
             _factory = factory;
             _client = factory.CreateClient(new WebApplicationFactoryClientOptions
             {
                 AllowAutoRedirect = false
             });
-            _tokenFixture = tokenFixture;
 
             testData = new TestData();
             // delete users 
             testData.DeleteAccounts();
+            token = TokenFixture.GetToken();
+
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         [Fact]
         public async Task Create_And_GetUserAccount_Returns_String_OK()
         {
-            var token = TokenFixture.GetToken();
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
             // Arrange
             Auth user = new Auth { Email = "testUser2@test.com", Password = "Password99" };
 
@@ -72,9 +73,6 @@ namespace TestProject.IntergrationTests.Controllers
         [Fact]
         public async Task Create_Exisiting_Account_Returns_Conflict()
         {
-            var token = TokenFixture.GetToken();
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             // Arrange
             Auth user = new Auth { Email = "testUser@test.com", Password = "Password99" };
@@ -97,9 +95,6 @@ namespace TestProject.IntergrationTests.Controllers
         [Fact]
         public async Task Delete_Existiting_Account_Returns_OK()
         {
-            var token = TokenFixture.GetToken();
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             // Arrange
             Auth user = new Auth { Email = "testUser@test.com", Password = "Password99" };
 
@@ -116,9 +111,6 @@ namespace TestProject.IntergrationTests.Controllers
         [Fact]
         public async Task Get_Non_Existiting_Account_Returns_Mot_Found()
         {
-            var token = TokenFixture.GetToken();
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var response = await _client.GetAsync("/api/accounts/1001");
             // Assert
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
@@ -126,9 +118,6 @@ namespace TestProject.IntergrationTests.Controllers
         [Fact]
         public async Task Post_Bad_Password_Returns_BadRequest()
         {
-            var token = TokenFixture.GetToken();
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             Auth user = new Auth { Email = "testUser@test.com", Password = "" };
 
@@ -153,10 +142,6 @@ namespace TestProject.IntergrationTests.Controllers
         public async Task GetAll_UserAccounts_Returns_List_Of_Users_OK()
         {
             testData.CreateListTestUsers();
-
-            var token = TokenFixture.GetToken();
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             //Act
             var response = await _client.GetAsync("/api/accounts/");

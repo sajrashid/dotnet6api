@@ -7,7 +7,15 @@
     <UserSecretsId>eb3d3220-fccc-4048-b92e-88bda3eb5b07</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="stylecop.json" />
+  </ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="AsyncFixer" Version="1.5.1">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="AutoMapper" Version="10.1.1" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
 		<PackageReference Include="Dapper" Version="2.0.90" />
@@ -24,6 +32,10 @@
 		<PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
 		<PackageReference Include="Serilog.Settings.Configuration" Version="3.2.0" />
 		<PackageReference Include="Serilog.Sinks.Splunk" Version="3.6.0" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.2" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.2.2" />
 		<PackageReference Include="System.Data.SqlClient" Version="4.8.3" />

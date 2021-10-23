@@ -1,43 +1,43 @@
-﻿using Dapper;
-
-using MyAPI.Models;
-
-using System.Data;
+﻿// <copyright file="VisitorRepository.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace MyAPI.Repository
 {
+    using System.Data;
+    using Dapper;
+    using MyAPI.Models;
+
     public class VisitorRepository : IVisitorRepository
     {
-        private readonly IDbConnection _conn;
+        private readonly IDbConnection conn;
 
         public VisitorRepository(IDbConnection conn)
         {
-            _conn = conn;
+            this.conn = conn;
         }
 
-        public async Task<int> DeleteVisitorById(int Id)
+        public async Task<int> DeleteVisitorById(int id)
         {
-
             var dictionary = new Dictionary<string, object>
             {
-                { "@id",Id }
+                { "@id", id },
             };
             var parameters = new DynamicParameters(dictionary);
             const string? sql = "Delete FROM Visitors WHERE Id = @Id";
 
-            using (_conn)
+            using (this.conn)
             {
-                await _conn.QueryFirstOrDefaultAsync<Visitor>(sql, parameters).ConfigureAwait(false);
-                return Id;
+                await this.conn.QueryFirstOrDefaultAsync<Visitor>(sql, parameters).ConfigureAwait(false);
+                return id;
             }
-
         }
 
         public async Task<IEnumerable<Visitor>> GetAllVisitors()
         {
-            using (_conn)
+            using (this.conn)
             {
-                return await _conn.QueryAsync<Visitor>("SELECT * FROM Visitors;").ConfigureAwait(false);
+                return await this.conn.QueryAsync<Visitor>("SELECT * FROM Visitors;").ConfigureAwait(false);
             }
         }
 
@@ -45,13 +45,13 @@ namespace MyAPI.Repository
         {
             var dictionary = new Dictionary<string, object>
             {
-                { "@hash", hash }
+                { "@hash", hash },
             };
-            using (_conn)
+            using (this.conn)
             {
                 var parameters = new DynamicParameters(dictionary);
                 const string? sql = "SELECT * FROM Visitors WHERE hash = @hash";
-                return await _conn.QueryFirstOrDefaultAsync<Visitor>(sql, parameters).ConfigureAwait(false);
+                return await this.conn.QueryFirstOrDefaultAsync<Visitor>(sql, parameters).ConfigureAwait(false);
             }
         }
 
@@ -59,9 +59,9 @@ namespace MyAPI.Repository
         {
             const string sql = "INSERT INTO Visitors (Hash,UserAgent,IP,LastVisit,Count) VALUES (@Hash,@UserAgent,@IP,@LastVisit,@Count)";
 
-            using (_conn)
+            using (this.conn)
             {
-                return await _conn.QueryFirstOrDefaultAsync<Visitor>(sql, visitor).ConfigureAwait(false);
+                return await this.conn.QueryFirstOrDefaultAsync<Visitor>(sql, visitor).ConfigureAwait(false);
             }
         }
 
@@ -69,9 +69,9 @@ namespace MyAPI.Repository
         {
             var parameters = visitor;
             const string? sql = "UPDATE Visitors SET Hash=@Hash,UserAgent=@UserAgent,IP=@IP,LastVisit=@LastVisit,Count=@Count WHERE id=@id";
-            using (_conn)
+            using (this.conn)
             {
-                return await _conn.ExecuteAsync(sql, parameters).ConfigureAwait(false);
+                return await this.conn.ExecuteAsync(sql, parameters).ConfigureAwait(false);
             }
         }
     }

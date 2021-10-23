@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Builder;
+
 using MyAPI.Services;
+
 using System.Collections.Generic;
+
 using Xunit;
 
 namespace TestProject
 {
     [CollectionDefinition(name: "TokenGenerator")]
-    public class TokenGeneratorDefinition : ICollectionFixture<TokenFixture> { }
     public static class TokenFixture
     {
         public static string GetToken()

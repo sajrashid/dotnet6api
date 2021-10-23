@@ -1,7 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// <copyright file="Roles.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace MyAPI.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class Roles
     {
         public int Id { get; set; }

@@ -1,7 +1,11 @@
-﻿using MyAPI.Models;
+﻿// <copyright file="IAccountRepository.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace MyAPI.Repository
 {
+    using MyAPI.Models;
+
     public interface IAccountRepository
     {
         public Task<User> GetUserById(int id);
