@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +11,6 @@ namespace TimedService
         private int executionCount = 0;
         private readonly ILogger<BackGroundTimedService> _logger;
         private Timer _timer = null!;
-
         public BackGroundTimedService(ILogger<BackGroundTimedService> logger)
         {
             _logger = logger;

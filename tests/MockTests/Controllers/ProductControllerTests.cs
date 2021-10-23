@@ -142,7 +142,6 @@ namespace TestProject.MockTests.Controllers
             result.Value.Should().BeOfType<int>();
         }
 
-
         [Fact]
         [Trait("API", "Unit")]
         public async Task UpdateProductReturnsUpdatedProduct()
