@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 
 using Xunit;
 
-
 namespace TestProject.SmokeTests
 {
     public class SmokeTests : IClassFixture<WebApplicationFactory<Program>>

@@ -31,7 +31,6 @@ namespace TestProject.IntergrationTests
             {
                 services.AddTransient(_ =>
                 {
-
                     IDbConnection conn = new MySqlConnection(connectionString);
 
                     // run script create tables, db etc..
@@ -49,5 +48,4 @@ namespace TestProject.IntergrationTests
             });
         }
     }
-
 }
