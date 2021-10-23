@@ -69,7 +69,7 @@ jobs:
             USER:  ${{ secrets.USERNAME}}
             # PORT: 2222 # no need to set this, because of $SSH_ARGS
             ARGS: -az --exclude=/.git/
-            SSH_ARGS: '-p 2222 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+            SSH_ARGS: '-p 22 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
             SOURCE: ./src/
 
             PRE_SCRIPT: |
