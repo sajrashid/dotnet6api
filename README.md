@@ -140,7 +140,3 @@ then add to server certificate store
 `sudo update-ca-certificates`
 
 you should see entry 1 added
-
-
-
-
