@@ -61,7 +61,7 @@ jobs:
       - name: Rsync - copy/update files
         uses: up9cloud/action-rsync@v1.1
         env:
-            HOST: example.com
+            HOST: ${{ secrets.SSH_HOST }}
             KEY: ${{secrets.PRIVATE_KEY}}
             TARGET: /scp/
 
