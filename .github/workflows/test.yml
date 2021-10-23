@@ -88,7 +88,6 @@ jobs:
 
       - name: Post Deployment tests
         run: |
-
              CODE=`curl --write-out '%{http_code}' \
                 --silent \
                 --output /dev/null \
