@@ -57,7 +57,7 @@ services:
       - reverseproxy
       - database
     #Map port 3306 on the mysql container to port 3306 in the host
-     
+
     restart: always
     # ports:
        #- "443:443"

@@ -106,7 +106,7 @@ namespace TestProject.IntergrationTests.Controllers
         {
             //Arrange 
             // create a new product
-            var product = new Product { Company = "XYZ CO", Phone = "111-222-333-444", Price = 55, InStock = true, StockCount = 5, NewStockDate = DateTime.Now, };
+            var product = new Product { Company = "XYA CO", Phone = "111-222-333-444", Price = 55, InStock = true, StockCount = 5, NewStockDate = DateTime.Now, };
             var json = JsonSerializer.Serialize<Product>(product);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -125,7 +125,7 @@ namespace TestProject.IntergrationTests.Controllers
             // Assert
             newproduct.Should().NotBeNull();
             newproduct.Should().BeOfType<Product>();
-            newproduct.Company.Should().Be("XYZ CO");
+            newproduct.Company.Should().Be("XYA CO");
             newproduct.StockCount.Should().Be(5);
 
             product = new Product { Id = newproduct.Id, Company = "Test CO", Phone = "11X-221-333-444", Price = 35, InStock = false, StockCount = 5, NewStockDate = DateTime.Now, };
@@ -198,7 +198,7 @@ namespace TestProject.IntergrationTests.Controllers
         public async Task Deletes_New_Product_Returns_OK()
         {
             // create a new product
-            var product = new Product { Company = "ABC CO", Phone = "111-222-333-444", Price = 55, InStock = true, StockCount = 5, NewStockDate = DateTime.Now, };
+            var product = new Product { Company = "AB CO", Phone = "111-222-333-444", Price = 55, InStock = true, StockCount = 5, NewStockDate = DateTime.Now, };
             var json = JsonSerializer.Serialize<Product>(product);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 

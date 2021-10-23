@@ -189,7 +189,6 @@ namespace TestProject.IntergrationTests.Controllers
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-
         [Fact]
         public async Task Validate_With_Empty_Email_Returns_BadRequest()
         {

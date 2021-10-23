@@ -113,7 +113,6 @@ namespace TestProject.IntergrationTests.Controllers
             var json = JsonSerializer.Serialize<Roles>(roles);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-
             var response = await _client.PutAsync($"/api/Roles/{1}", data).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
 
