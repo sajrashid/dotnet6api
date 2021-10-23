@@ -86,22 +86,13 @@ jobs:
           username: ${{ secrets.USERNAME}}
           privateKey: ${{ secrets.PRIVATE_KEY}}
 
-      - name: curl
+      - name: Post Deployment Curl Test
         uses: wei/curl@v1
         with:
           args: -X GET https://imgloader.co.uk/api/Products/1
 
 
 
-      #- name: Copy files
-      #  # Reference a specific commit on action
-      #  uses: garygrossgarten/github-action-scp@dba89d858413133b6e35da91a3c989cc8cde3ad4
-      #  with:
-      #    local: src
-      #    remote: scp/
-      #    host: ${{ secrets.SSH_HOST }}
-      #    username: ${{ secrets.USERNAME}}
-      #    privateKey: ${{ secrets.PRIVATE_KEY}}
 
  
 
