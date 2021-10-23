@@ -1,3 +1,5 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/sajrashid/dotnet6api/badge)](https://www.codefactor.io/repository/github/sajrashid/dotnet6api)
+
 # DotNet 6 Demo API
 
 Demo APi built with Docker-Compose, user Nginx as a reverse proxy, setup with let's encrypt ssl.
