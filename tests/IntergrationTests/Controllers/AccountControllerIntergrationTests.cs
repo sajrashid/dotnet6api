@@ -22,7 +22,6 @@ namespace TestProject.IntergrationTests.Controllers
 
         private readonly CustomWebApplicationFactory<Program> _factory;
 
-
         private readonly TestData testData;
         private readonly string token;
         public AccountControllerIntergrationTests(
@@ -46,9 +45,8 @@ namespace TestProject.IntergrationTests.Controllers
         [Fact]
         public async Task Create_And_GetUserAccount_Returns_String_OK()
         {
-
             // Arrange
-            Auth user = new Auth { Email = "testUser2@test.com", Password = "Password99" };
+            Auth user = new() { Email = "testUser2@test.com", Password = "Password99" };
 
             var json = JsonSerializer.Serialize<Auth>(user);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -73,7 +71,6 @@ namespace TestProject.IntergrationTests.Controllers
         [Fact]
         public async Task Create_Exisiting_Account_Returns_Conflict()
         {
-
             // Arrange
             Auth user = new Auth { Email = "testUser@test.com", Password = "Password99" };
 
@@ -101,7 +98,7 @@ namespace TestProject.IntergrationTests.Controllers
             var json = JsonSerializer.Serialize<Auth>(user);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             //Act
-            var response = await _client.PostAsync("/api/accounts/", data);
+            var response = await _client.PostAsync("/api/accounts/", data).ConfigureAwait(false);
             // Assert
             response.EnsureSuccessStatusCode();
             //Act
@@ -118,7 +115,6 @@ namespace TestProject.IntergrationTests.Controllers
         [Fact]
         public async Task Post_Bad_Password_Returns_BadRequest()
         {
-
             Auth user = new Auth { Email = "testUser@test.com", Password = "" };
 
             var json = JsonSerializer.Serialize<Auth>(user);
@@ -144,7 +140,7 @@ namespace TestProject.IntergrationTests.Controllers
             testData.CreateListTestUsers();
 
             //Act
-            var response = await _client.GetAsync("/api/accounts/");
+            var response = await _client.GetAsync("/api/accounts/").ConfigureAwait(false);
             // Assert
 
             var res = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
