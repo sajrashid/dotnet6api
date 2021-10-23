@@ -224,10 +224,4 @@ namespace TestProject.IntergrationTests.Controllers
             UserList.Should().BeOfType<List<User>>();
         }
     }
-
-    public class ApiToken
-    {
-        public string Token { get; set; }
-        public string Message { get; set; }
-    }
 }
