@@ -1,0 +1,46 @@
+on:
+  # Trigger build and tests when pushing in develop
+  # or when creating pull request to any branch.
+  push:
+    branches:
+      - develop
+  pull_request:
+    types: [opened, synchronize, reopened]
+name:  Test-PR/Develop
+
+jobs:
+  test_build:
+    runs-on: ubuntu-latest
+    env:
+      DB_DATABASE: testdb
+      DB_USER: root
+      DB_PASSWORD: "root"
+      DB_HOST: localhost
+      ASPNETCORE_ENVIRONMENT: Development
+
+    steps:
+
+      - name: Start MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE testdb;' -uroot -proot
+          mysql -e 'SHOW DATABASES;' -uroot -proot
+
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+          include-prerelease: true
+
+      - name: Run SQL script
+        run: |
+          mysql  -uroot -proot < "setup.sql"
+      - name: Restore dependencies
+        run:  dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
