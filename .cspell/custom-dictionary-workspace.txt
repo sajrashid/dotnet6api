@@ -1,0 +1,12 @@
+# Custom Dictionary Words
+appsettings
+ASPNETCORE
+CONNECTIONSTRING
+garygrossgarten
+imgloader
+jakejarvis
+MySQL
+prerelease
+proot
+testdb
+uroot
