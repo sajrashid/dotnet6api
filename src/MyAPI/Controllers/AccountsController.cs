@@ -14,7 +14,7 @@ namespace MyAPI.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
-        private readonly IAccountRepository repo;
+        private readonly IAccountRepository repox;
 
         public AccountsController(IAccountRepository repo)
         {
