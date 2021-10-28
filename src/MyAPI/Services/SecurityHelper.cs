@@ -17,7 +17,7 @@ namespace MyAPI.Services
             byte[] hashBytes = md5.ComputeHash(inputBytes);
 
             // Step 2, convert byte array to hex string
-            StringBuilder sb = new ();
+            StringBuilder sb = new();
             for (int i = 0; i < hashBytes.Length; i++)
             {
                 sb.Append(hashBytes[i].ToString("X2"));
