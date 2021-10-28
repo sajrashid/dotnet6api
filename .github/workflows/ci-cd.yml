@@ -71,7 +71,7 @@ jobs:
       - name: Test Docker
         run: |
             cd src/MyAPI/
-            docker-compose -f docker-compose.prod.mysql.yml build -d
+            docker-compose -f docker-compose.prod.mysql.yml --build -d
 
       # Wait for the container
       - name: Sleep
