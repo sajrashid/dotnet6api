@@ -68,7 +68,9 @@ jobs:
 
       # Run docker build
       - name: Test Docker
-        run: docker-compose -f docker-compose.prod.mysql.yml build -d
+        run: |
+            cd src/MyAPI/
+            docker-compose -f docker-compose.prod.mysql.yml build -d
 
       # Wait for the container
       - name: Sleep
