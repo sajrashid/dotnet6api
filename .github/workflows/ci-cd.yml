@@ -83,7 +83,7 @@ jobs:
       - name: Check running containers
         run: docker ps
 
-      # Sync files to server
+      # Sync files to remote server
       - name: Rsync - copy/update files
         uses: up9cloud/action-rsync@v1.1
         env:
