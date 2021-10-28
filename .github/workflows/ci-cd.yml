@@ -70,10 +70,8 @@ jobs:
       # Run docker build
       - name: Test Docker
         run: |
-            ls -a
             cd src/MyAPI/
-            ls -a
-            docker-compose -f docker-compose.prod.mysql.yml --build -d
+            docker-compose -f docker-compose.prod.mysql.yml up --build -d
 
       # Wait for the container
       - name: Sleep
