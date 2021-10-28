@@ -1,47 +1,59 @@
 name: Deploy-Master
   # Trigger analysis when pushing in master
+  # Trigger Build when pushing in master
+  # Trigger Test when pushing in master
+  # Trigger Deploy when pushing in master
 on:
   push:
     branches:
+      # Only deploy on master
       - master
 jobs:
-  test_build:
-    runs-on: ubuntu-latest
+  test_build: # Here we define the name of the job, github actions creates a uid for us
+    runs-on: ubuntu-latest # We could run on any OS using Matrix os
     env:
       DB_DATABASE: testdb
       DB_USER: root
       DB_PASSWORD: "root"
       DB_HOST: localhost
+      # Set our asp.net environment
       ASPNETCORE_ENVIRONMENT: Development
 
     steps:
-
+      # Ubuntu has MySql by default, we just need to start it
       - name: Start MySQL
+        run:  sudo /etc/init.d/mysql start
+      # Run database scripts
+      - name: Run SQL script
         run: |
-          sudo /etc/init.d/mysql start
+          mysql  -uroot -proot < "setup.sql"
           mysql -e 'CREATE DATABASE testdb;' -uroot -proot
           mysql -e 'SHOW DATABASES;' -uroot -proot
 
-      - uses: actions/checkout@v2
+      # check out code from github
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Install dotnet 6 RC latest
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 6.0.x
           include-prerelease: true
 
-      - name: Run SQL script
-        run: |
-          mysql  -uroot -proot < "setup.sql"
+      # Restore dependencies
       - name: Restore dependencies
         run:  dotnet restore
-
+      # Build the project
       - name: Build
         run: dotnet build --no-restore
-
+      # Run tests
       - name: Test
         run: dotnet test --no-build --verbosity normal
 
-      - name: Substitue variables in appsetting.json & docker files 
+      # Get our repository secrets and inject them into our settings files
+      # Database connection string, user name, passwords, keys, etc
+      - name: Substitute variables in appsettings.json & docker files
         uses: microsoft/variable-substitution@v1
         with:
          files: './src/MyAPI/appsettings.json, ./src/MyAPI/docker-compose.prod.mysql.yml'
@@ -54,6 +66,23 @@ jobs:
           services.database.environment.MYSQL_USER: ${{ secrets.MYSQL_USER }}
           services.database.environment.MYSQL_DATABASE:  ${{ secrets.MYSQL_DATABASE }}
 
+      # Run docker build
+      - name: Test Docker
+        run: |
+            cd src/MyAPI/
+            docker-compose -f docker-compose.prod.mysql.yml build -d
+
+      # Wait for the container
+      - name: Sleep
+        uses: jakejarvis/wait-action@master
+        with:
+         time: '30s'
+
+      # Test if containers are running
+      - name: Check running containers
+        run: docker ps
+
+      # Sync files to server
       - name: Rsync - copy/update files
         uses: up9cloud/action-rsync@v1.1
         env:
@@ -73,6 +102,7 @@ jobs:
               date -u --rfc-3339=ns
             POST_SCRIPT: "echo done at: && date -u --rfc-3339=ns"
 
+      # Run docker compose locally on remote server
       - name: Run docker-compose via SSH
         uses: garygrossgarten/github-action-ssh@2b10f41b5a33808f6d24eafd253296766308b7c4
         with:
@@ -83,6 +113,7 @@ jobs:
           username: ${{ secrets.USERNAME}}
           privateKey: ${{ secrets.PRIVATE_KEY}}
 
+      # Run post deployment tasks
       - name: Post Deployment Curl Test
         uses: wei/curl@v1
         with:
