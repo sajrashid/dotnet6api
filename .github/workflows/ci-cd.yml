@@ -67,6 +67,10 @@ jobs:
           services.database.environment.MYSQL_USER: ${{ secrets.MYSQL_USER }}
           services.database.environment.MYSQL_DATABASE:  ${{ secrets.MYSQL_DATABASE }}
 
+      # Stop MySql so we don't get a port clash with a MySql container
+      - name: Stop MySQL
+        run:  sudo /etc/init.d/mysql stop
+
       # Run docker build
       - name: Test Docker
         run: |
