@@ -23,16 +23,17 @@ jobs:
       # Ubuntu has MySql by default, we just need to start it
       - name: Start MySQL
         run:  sudo /etc/init.d/mysql start
-      # Run database scripts
-      - name: Run SQL script
-        run: |
-          mysql  -uroot -proot < "setup.sql"
-          mysql -e 'CREATE DATABASE testdb;' -uroot -proot
-          mysql -e 'SHOW DATABASES;' -uroot -proot
 
       # check out code from github
       - name: Checkout code
         uses: actions/checkout@v2
+
+      # Run database scripts after we checkout code
+      - name: Create DB, run SQL script
+        run: |
+          mysql -e 'CREATE DATABASE testdb;' -uroot -proot
+          mysql -e 'SHOW DATABASES;' -uroot -proot
+          mysql  -uroot -proot < "setup.sql"
 
       # Install dotnet 6 RC latest
       - name: Setup .NET
